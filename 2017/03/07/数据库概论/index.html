@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/03/07/数据库概论/index.html">
 <meta property="og:site_name" content="Wyatt's blog">
 <meta property="og:description" content="前言本文着重于SQL语句的介绍">
-<meta property="og:updated_time" content="2017-03-07T15:45:04.903Z">
+<meta property="og:updated_time" content="2017-03-07T15:49:42.372Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库概论">
 <meta name="twitter:description" content="前言本文着重于SQL语句的介绍">
@@ -425,17 +425,27 @@
 <h2 id="模型分类"><a href="#模型分类" class="headerlink" title="模型分类"></a>模型分类</h2><p>根据应用目的，模型分为两个层次：</p>
 <ul>
 <li>概念模型(信息模型)：也是按用户观点来对数据和信息建模，主要用于数据库设计。</li>
-<li>数据模型(网状、层状、关系)：从计算机观点来看，它是按计算机系统的观点对数据建模，主要用于DBMS的实现。<h3 id="概念模型"><a href="#概念模型" class="headerlink" title="概念模型"></a>概念模型</h3>概念模型是将数据从现实世界向抽象世界转换的第一步模型<h3 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a>数据模型</h3>当前流行的基本数据模型有三类：</li>
+<li>数据模型(网状、层状、关系)：从计算机观点来看，它是按计算机系统的观点对数据建模，主要用于DBMS的实现。</li>
+</ul>
+<h3 id="概念模型"><a href="#概念模型" class="headerlink" title="概念模型"></a>概念模型</h3><p>概念模型是将数据从现实世界向抽象世界转换的第一步模型</p>
+<h3 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a>数据模型</h3><p>当前流行的基本数据模型有三类：</p>
+<ul>
 <li>层次模型(Hierarchical Model)</li>
 <li>网状模型(Network Model)</li>
-<li>关系模型(Relational Model)<h3 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h3></li>
+<li>关系模型(Relational Model)</li>
+</ul>
+<h3 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h3><ul>
 <li>域(Domain)是一组具有相同数据类型的值的集合。</li>
 <li>笛卡尔积</li>
 <li>笛卡儿积 D1×D2×… ×Dn<br>的子集称为定义在域D1,D2,…,Dn上的n元关系(Relation)，可用R(D1,D2,…,Dn )表示</li>
 <li>码：在给定的关系中，具有唯一标识元组的一个或一组属性，称为关系的码</li>
 <li>候选码：如果在关系中，具有码特性的属性或属性组有多个，则把它们都称为关系的候选码。</li>
 <li>主码：当一个关系中有多个候选码时，我们从候选码中选择一个作为关系的主码。每个关系都必定有且只有一个主码。</li>
-<li>外部码：如果关系R2的一个或一组属性不是R2的主码，而是另一关系R1的主码，则该属性或属性组成为关系R2的外部码。<h3 id="关系操作"><a href="#关系操作" class="headerlink" title="关系操作"></a>关系操作</h3>关系模型中常用的关系操作包括：<br>选择(Select)、投影(Project)、连接 (Join)、除(Divide)<br>、并(Union)、交(Intersection)、差(Set<br>Difference)等查询。以及增加(Insert)、删除(Delete) 、修改(Update)操作。<h3 id="关系模型的三类完整性"><a href="#关系模型的三类完整性" class="headerlink" title="关系模型的三类完整性"></a>关系模型的三类完整性</h3>指实体完整性、参照完整性和用户定义的完整性（其中前两类完整性是关系模型必须满足的约束条件）</li>
+<li>外部码：如果关系R2的一个或一组属性不是R2的主码，而是另一关系R1的主码，则该属性或属性组成为关系R2的外部码。</li>
+</ul>
+<h3 id="关系操作"><a href="#关系操作" class="headerlink" title="关系操作"></a>关系操作</h3><p>关系模型中常用的关系操作包括：<br>选择(Select)、投影(Project)、连接 (Join)、除(Divide)、并(Union)、交(Intersection)、差(Set Difference)等查询。以及增加(Insert)、删除(Delete) 、修改(Update)操作。</p>
+<h3 id="关系模型的三类完整性"><a href="#关系模型的三类完整性" class="headerlink" title="关系模型的三类完整性"></a>关系模型的三类完整性</h3><p>指实体完整性、参照完整性和用户定义的完整性（其中前两类完整性是关系模型必须满足的约束条件）</p>
+<ul>
 <li>实体完整性<ul>
 <li>在关系中，要求主码的值不能为空值。</li>
 </ul>
@@ -445,24 +455,77 @@
 </ul>
 </li>
 <li>用户定义完整性<ul>
-<li>针对某个具体数据库的约束条件，由应用环境决定，它反映某一具体应用所涉及的数据必须满足的语义要求。<h2 id="关系数据库设计理论"><a href="#关系数据库设计理论" class="headerlink" title="关系数据库设计理论"></a>关系数据库设计理论</h2><h2 id="数据库安全保护"><a href="#数据库安全保护" class="headerlink" title="数据库安全保护"></a>数据库安全保护</h2><h2 id="数据库设计"><a href="#数据库设计" class="headerlink" title="数据库设计"></a>数据库设计</h2><h2 id="SQL语句"><a href="#SQL语句" class="headerlink" title="SQL语句"></a>SQL语句</h2>关系数据库标准语言–Structured Query Language(sql)<h3 id="SQL语言的基本概念与特点"><a href="#SQL语言的基本概念与特点" class="headerlink" title="SQL语言的基本概念与特点"></a>SQL语言的基本概念与特点</h3><h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4></li>
+<li>针对某个具体数据库的约束条件，由应用环境决定，它反映某一具体应用所涉及的数据必须满足的语义要求。</li>
 </ul>
 </li>
+</ul>
+<h2 id="关系数据库设计理论"><a href="#关系数据库设计理论" class="headerlink" title="关系数据库设计理论"></a>关系数据库设计理论</h2><h2 id="数据库安全保护"><a href="#数据库安全保护" class="headerlink" title="数据库安全保护"></a>数据库安全保护</h2><h2 id="数据库设计"><a href="#数据库设计" class="headerlink" title="数据库设计"></a>数据库设计</h2><h2 id="SQL语句"><a href="#SQL语句" class="headerlink" title="SQL语句"></a>SQL语句</h2><p>关系数据库标准语言–Structured Query Language(sql)</p>
+<h3 id="SQL语言的基本概念与特点"><a href="#SQL语言的基本概念与特点" class="headerlink" title="SQL语言的基本概念与特点"></a>SQL语言的基本概念与特点</h3><h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><ul>
 <li>基本表（Base Table） <ul>
 <li>一个关系对应一个基本表 </li>
 <li>一个或多个基本表对应一个存储文件 </li>
 </ul>
 </li>
 <li>视图（View)<ul>
-<li>视图是从一个或几个基本表导出的表，是一个虚拟的表 <h4 id="主要特点"><a href="#主要特点" class="headerlink" title="主要特点"></a>主要特点</h4></li>
+<li>视图是从一个或几个基本表导出的表，是一个虚拟的表 </li>
 </ul>
 </li>
+</ul>
+<h4 id="主要特点"><a href="#主要特点" class="headerlink" title="主要特点"></a>主要特点</h4><ul>
 <li>SQL语言是类似于英语的自然语言，简洁易用 </li>
 <li>SQL语言是一种非过程语言</li>
 <li>SQL语言是一种面向集合的语言 </li>
 <li>SQL语言既是自含式语言，又是嵌入式语言</li>
-<li>SQL语言具有数据查询、数据定义、数据操纵和数据控制四种功能  <h3 id="了解SQL-Server-2000"><a href="#了解SQL-Server-2000" class="headerlink" title="了解SQL Server 2000"></a>了解SQL Server 2000</h3>SQL Server是一个关系数据库管理系统<h4 id="主要组件"><a href="#主要组件" class="headerlink" title="主要组件"></a>主要组件</h4>|组件|功能|<br>|–|–|<br>|企业管理器|管理所有的数据库系统工作和服务器工作|<br>|查询分析器|执行Transact-SQL命令等SQL脚本程序 |<br>|服务管理器|启动、暂停或停止SQL Server的四种服务|<br>|客户端网络实用工具|配置客户端的连接、测定网络库的版本信息以及设定本地数据库的相关选项|<br>|服务器网络实用工具|配置服务器端的连接、测定网络库的版本信息|<br>|导入和导出数据|在OLE DB数据源之间复制数据|<br>|在IIS中配置SQL XML支持|在运行IIS的计算机上定义、注册虚拟目录，并在虚拟目录和SQL Server实例之间创建关联|<br>|事件探查器|监视SQL Server 数据库系统引擎事件|<br>|联机丛书|查询信息|<h4 id="企业管理器"><a href="#企业管理器" class="headerlink" title="企业管理器"></a>企业管理器</h4>企业管理器是用于管理企业级SQL Server或者SQL Server对象的方便而实用的图形化工具，它是SQL Server工具中最重要的一个，通过它可以对SQL Server数据库进行管理和操作。</li>
+<li>SQL语言具有数据查询、数据定义、数据操纵和数据控制四种功能  </li>
 </ul>
+<h3 id="了解SQL-Server-2000"><a href="#了解SQL-Server-2000" class="headerlink" title="了解SQL Server 2000"></a>了解SQL Server 2000</h3><p>SQL Server是一个关系数据库管理系统</p>
+<h4 id="主要组件"><a href="#主要组件" class="headerlink" title="主要组件"></a>主要组件</h4><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>企业管理器</td>
+<td>管理所有的数据库系统工作和服务器工作</td>
+</tr>
+<tr>
+<td>查询分析器</td>
+<td>执行Transact-SQL命令等SQL脚本程序</td>
+</tr>
+<tr>
+<td>服务管理器</td>
+<td>启动、暂停或停止SQL Server的四种服务</td>
+</tr>
+<tr>
+<td>客户端网络实用工具</td>
+<td>配置客户端的连接、测定网络库的版本信息以及设定本地数据库的相关选项</td>
+</tr>
+<tr>
+<td>服务器网络实用工具</td>
+<td>配置服务器端的连接、测定网络库的版本信息</td>
+</tr>
+<tr>
+<td>导入和导出数据</td>
+<td>在OLE DB数据源之间复制数据</td>
+</tr>
+<tr>
+<td>在IIS中配置SQL XML支持</td>
+<td>在运行IIS的计算机上定义、注册虚拟目录，并在虚拟目录和SQL Server实例之间创建关联</td>
+</tr>
+<tr>
+<td>事件探查器</td>
+<td>监视SQL Server 数据库系统引擎事件</td>
+</tr>
+<tr>
+<td>联机丛书</td>
+<td>查询信息</td>
+</tr>
+</tbody>
+</table>
+<h4 id="企业管理器"><a href="#企业管理器" class="headerlink" title="企业管理器"></a>企业管理器</h4><p>企业管理器是用于管理企业级SQL Server或者SQL Server对象的方便而实用的图形化工具，它是SQL Server工具中最重要的一个，通过它可以对SQL Server数据库进行管理和操作。</p>
 <p>企业管理器的功能非常强大，可以用它来完成以下工作：</p>
 <ul>
 <li>注册服务器</li>
@@ -475,20 +538,29 @@
 <li>创建全文索引、数据库图表</li>
 <li>引入和导出数据</li>
 <li>数据转换</li>
-<li>多种网页发布和管理<h4 id="查询分析器"><a href="#查询分析器" class="headerlink" title="查询分析器"></a>查询分析器</h4>查询分析器是一个可以交互执行SQL语句和脚本的图形工具，它的主要功能是编辑、编译和执行T-SQL语句，并显示命令结果。<h3 id="创建与使用数据库"><a href="#创建与使用数据库" class="headerlink" title="创建与使用数据库"></a>创建与使用数据库</h3><h4 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h4>数据库包括多个数据文件和事务日志文件</li>
+<li>多种网页发布和管理</li>
+</ul>
+<h4 id="查询分析器"><a href="#查询分析器" class="headerlink" title="查询分析器"></a>查询分析器</h4><p>查询分析器是一个可以交互执行SQL语句和脚本的图形工具，它的主要功能是编辑、编译和执行T-SQL语句，并显示命令结果。</p>
+<h3 id="创建与使用数据库"><a href="#创建与使用数据库" class="headerlink" title="创建与使用数据库"></a>创建与使用数据库</h3><h4 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h4><p>数据库包括多个数据文件和事务日志文件</p>
+<ul>
 <li>数据文件<ul>
 <li>存放数据库数据和数据库对象的文件</li>
 <li>主要数据文件(.mdf )(只有一个)+次要数据文件(.ndf )(可有多个)</li>
 </ul>
 </li>
 <li>事务日志文件<ul>
-<li>记录数据库更新情况，扩展名为.ldf,当数据库破坏时可以用事务日志还原数据<br>库内容<h4 id="文件组"><a href="#文件组" class="headerlink" title="文件组"></a>文件组</h4></li>
+<li>记录数据库更新情况，扩展名为.ldf,当数据库破坏时可以用事务日志还原数据<br>库内容</li>
 </ul>
 </li>
+</ul>
+<h4 id="文件组"><a href="#文件组" class="headerlink" title="文件组"></a>文件组</h4><ul>
 <li>文件组（File Group）是将多个数据文件集合起来形成的一个整体</li>
 <li>主要文件组+次要文件组</li>
 <li>一个数据文件只能存在于一个文件组中，一个文件组也只能被一个数据库使用</li>
-<li>日志文件不分组，它不能属于任何文件组<h3 id="创建与使用数据表"><a href="#创建与使用数据表" class="headerlink" title="创建与使用数据表"></a>创建与使用数据表</h3><h4 id="系统的数据库"><a href="#系统的数据库" class="headerlink" title="系统的数据库"></a>系统的数据库</h4><strong>Master</strong></li>
+<li>日志文件不分组，它不能属于任何文件组</li>
+</ul>
+<h3 id="创建与使用数据表"><a href="#创建与使用数据表" class="headerlink" title="创建与使用数据表"></a>创建与使用数据表</h3><h4 id="系统的数据库"><a href="#系统的数据库" class="headerlink" title="系统的数据库"></a>系统的数据库</h4><p><strong>Master</strong></p>
+<ul>
 <li>系统信息:<ul>
 <li>磁盘空间</li>
 <li>文件分配和使用</li>
@@ -500,9 +572,10 @@
 </li>
 <li>Model数据库存储了所有用户数据库和Tempdb数据库的创建模板,通过更改Model数据库的设置可以大大简化数据库及其对象的创建设置工作。<br><strong>Msdb</strong></li>
 <li>存储计划信息以及与备份和还原相关的信息<br><strong>Tempdb</strong></li>
-<li>Tempdb数据库用作系统的临时存储空间<br>存储临时表,临时存储过程和全局变量值 ，创建临<br>时表 ，存储用户利用游标说明所筛选出来的数据<h4 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h4><strong>使用Enterprise Manager创建数据库</strong><br><strong>用SQL命令创建数据库</strong><h5 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h5></li>
+<li>Tempdb数据库用作系统的临时存储空间<br>存储临时表,临时存储过程和全局变量值 ，创建临<br>时表 ，存储用户利用游标说明所筛选出来的数据</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> database_name</div><div class="line">[ <span class="keyword">ON</span></div><div class="line">[ &lt; filespec &gt; [ ,...n  ]  ] </div><div class="line">[ , &lt; filegroup &gt; [ ,...n  ]  ] ] </div><div class="line">[ <span class="keyword">LOG</span> <span class="keyword">ON</span> &#123; &lt; filespec &gt; [ ,...n  ]  &#125;  ] </div><div class="line">[ <span class="keyword">COLLATE</span> collation_name  ]</div><div class="line">[ <span class="keyword">FOR</span> <span class="keyword">LOAD</span> | <span class="keyword">FOR</span> ATTACH  ]</div></pre></td></tr></table></figure>
+<h4 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h4><p><strong>使用Enterprise Manager创建数据库</strong><br><strong>用SQL命令创建数据库</strong></p>
+<h5 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> database_name</div><div class="line">[ <span class="keyword">ON</span></div><div class="line">[ &lt; filespec &gt; [ ,...n  ]  ] </div><div class="line">[ , &lt; filegroup &gt; [ ,...n  ]  ] ] </div><div class="line">[ <span class="keyword">LOG</span> <span class="keyword">ON</span> &#123; &lt; filespec &gt; [ ,...n  ]  &#125;  ] </div><div class="line">[ <span class="keyword">COLLATE</span> collation_name  ]</div><div class="line">[ <span class="keyword">FOR</span> <span class="keyword">LOAD</span> | <span class="keyword">FOR</span> ATTACH  ]</div></pre></td></tr></table></figure>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">([NAME=logical_file_name,]</div><div class="line">FILENAME= ‘os_file_name’</div><div class="line">[，SIZE  =  size]</div><div class="line">[，MAXSIZE=&#123;max_size| UNLIMITED&#125;]</div><div class="line">[，FILEGROWTH=growth_increment])</div></pre></td></tr></table></figure>
 <h5 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h5><p>用SQL命令创建一个教学数据库Teach，数据文件的逻辑名称为Teach_Data，数据文件物理地存放在D:盘的根目录下，文件名为TeachData.mdf，数据文件的初始存储空间大小为10MB，最大存储空间为50MB，存储空间自动增长量为5MB；日志文件的逻辑名称为Teach_Log，日志文件物理地存放在D：盘的根目录下，文件名为TeachLog.ldf，初始存储空间大小为10MB，最大存储空间为25MB，存储空间自动增长量为5MB。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> Teach</div><div class="line"><span class="keyword">ON</span></div><div class="line">(	//数据库名称</div><div class="line">    <span class="keyword">NAME</span>=Teach_Data,</div><div class="line">    //数据库文件路径及名称</div><div class="line">	FILENAME=<span class="string">'D:\TeachData.mdf'</span>,</div><div class="line">	//数据文件初始存储空间</div><div class="line">    <span class="keyword">SIZE</span>=<span class="number">10</span>,</div><div class="line">    //最大存储空间</div><div class="line">	<span class="keyword">MAXSIZE</span>=<span class="number">50</span>,</div><div class="line">    //自动增长量</div><div class="line">	FILEGROWTH=<span class="number">5</span>)</div><div class="line"><span class="keyword">LOG</span> <span class="keyword">ON</span> //日志文件</div><div class="line">(   <span class="keyword">NAME</span>=Teach_Log,</div><div class="line">	FILENAME=<span class="string">'D:\TeachLog.ldf'</span>,</div><div class="line">	<span class="keyword">SIZE</span>=<span class="number">5</span>,</div><div class="line">	<span class="keyword">MAXSIZE</span>=<span class="number">25</span>,</div><div class="line">	FILEGROWTH=<span class="number">5</span>)</div></pre></td></tr></table></figure>
