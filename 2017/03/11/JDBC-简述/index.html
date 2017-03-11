@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Wyatt's blog">
 <meta property="og:description" content="前言JDBC(Java Data Base Connectivity) 是一种用于执行SQL语句的Java API,有了JDBC API，就不必为访问Sybase数据库专门写一个程序，为访问Oracle数据库又专门写一个程序，或为访问Informix数据库又编写另一个程序等等，程序员只需用JDBC API写一个程序就够了，它可向相应数据库发送SQL调用。
 简单地说，JDBC可做三件事：与数据库建立">
-<meta property="og:updated_time" content="2017-03-11T15:53:33.577Z">
+<meta property="og:updated_time" content="2017-03-11T15:55:36.799Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JDBC 简述">
 <meta name="twitter:description" content="前言JDBC(Java Data Base Connectivity) 是一种用于执行SQL语句的Java API,有了JDBC API，就不必为访问Sybase数据库专门写一个程序，为访问Oracle数据库又专门写一个程序，或为访问Informix数据库又编写另一个程序等等，程序员只需用JDBC API写一个程序就够了，它可向相应数据库发送SQL调用。
@@ -451,18 +451,18 @@
 </ul>
 </li>
 </ul>
-<h2 id="1-数据库连接"><a href="#1-数据库连接" class="headerlink" title="1.数据库连接"></a>1.数据库连接</h2><h3 id="加载驱动"><a href="#加载驱动" class="headerlink" title="加载驱动"></a>加载驱动</h3><p>JDBC怎么用一套语法搞定一个数据库的? 其秘密就在于java的多态. 首先为JDBC注册一个数据库驱动, 然后根据这个驱动类型, 返回相应的连接.</p>
+<h3 id="数据库连接"><a href="#数据库连接" class="headerlink" title="数据库连接"></a>数据库连接</h3><h4 id="加载驱动"><a href="#加载驱动" class="headerlink" title="加载驱动"></a>加载驱动</h4><p>JDBC怎么用一套语法搞定一个数据库的? 其秘密就在于java的多态. 首先为JDBC注册一个数据库驱动, 然后根据这个驱动类型, 返回相应的连接.</p>
 <p>首先加载相应的数据库驱动(以MySQL为例) :</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);</div><div class="line">&#125;</div><div class="line"><span class="keyword">catch</span>(ClassNotFoundException e) &#123;</div><div class="line">    System.out.println(<span class="string">"找不到驱动程序"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>假如想要操作的是Oracle或者HSQLDB呢?只需要把上面的com.mysql.jdbc.Driver改成org.hsqldb.jdbc.JDBCDriver 或者 org.hsqldb.jdbc.JDBCDriver</p>
-<h3 id="得到连接"><a href="#得到连接" class="headerlink" title="得到连接"></a>得到连接</h3><p>加载了驱动之后,JDBC就知道你注册的数据库类型,这时候用java.sql.DriveManager即可得到JDBC到数据库的连接(java.sql.Connection)(可以理解为一个Socket)</p>
+<h4 id="得到连接"><a href="#得到连接" class="headerlink" title="得到连接"></a>得到连接</h4><p>加载了驱动之后,JDBC就知道你注册的数据库类型,这时候用java.sql.DriveManager即可得到JDBC到数据库的连接(java.sql.Connection)(可以理解为一个Socket)</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    </div><div class="line">    String url =  <span class="string">"jdbc:mysql://127.0.0.1:3306/test?"</span> + <span class="string">"user=root&amp;password=root"</span>;</div><div class="line">    Connection con = DriverManager.getConnection(url);</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="keyword">catch</span>(SQLException e) &#123;</div><div class="line">    ....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><strong>注:</strong><br>上面代码的URL格式为(如果要使用英文以外的字符进行存储,要加上[]里的内容):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jdbc:mysql:<span class="comment">//主机名:端口/数据库名称?用户名="用户名"&amp;密码="密码"[&amp;useUnicode=布尔值&amp;characterEncoding=编码方式]</span></div></pre></td></tr></table></figure></p>
 <p>例子(用中文存储):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jdbc:mysql:<span class="comment">//127.0.0.1:3306/test?user=root&amp;password=root&amp;useUnicode=true&amp;characterEncoding=Big5</span></div></pre></td></tr></table></figure></p>
-<h2 id="2-操作数据库"><a href="#2-操作数据库" class="headerlink" title="2.操作数据库"></a>2.操作数据库</h2><p>现在我们已经通过DriverManager得到一个connection了,现在可以用SQL进行操作了,这就要用到java.sql.Statement 和 java.sql.PreparedStatement</p>
+<h3 id="操作数据库"><a href="#操作数据库" class="headerlink" title="操作数据库"></a>操作数据库</h3><p>现在我们已经通过DriverManager得到一个connection了,现在可以用SQL进行操作了,这就要用到java.sql.Statement 和 java.sql.PreparedStatement</p>
 <p>这里以java.sql.PreparedStatement为例 :<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">PreparedStatement countriesStatement = connection.prepareStatement("UPDATE</div><div class="line">COUNTRIES SET NAME = ? WHERE ID = ?");</div><div class="line">countriesStatement.setString(1, "Spain");</div><div class="line">countriesStatement.setInt(2, 123456789);</div></pre></td></tr></table></figure></p>
 <p>仔细阅读代码会发现,这个类初始化的时候用到一个模板,后面就可以进行高效的批量操作了.</p>
-<h2 id="3-取得结果"><a href="#3-取得结果" class="headerlink" title="3.取得结果"></a>3.取得结果</h2><p>如果进行查询操作的话,怎么接收返回的数据呢? 该 java.sql.ResultSet 粉墨登场了</p>
+<h3 id="取得结果"><a href="#取得结果" class="headerlink" title="取得结果"></a>取得结果</h3><p>如果进行查询操作的话,怎么接收返回的数据呢? 该 java.sql.ResultSet 粉墨登场了</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ResultSet rs = countriesStatement.executeQuery(<span class="string">"SELECT NAME, POPULATION FROM COUNTRIES"</span>);</div></pre></td></tr></table></figure>
 
       
@@ -666,7 +666,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本的JDBC组件"><span class="nav-number">2.</span> <span class="nav-text">基本的JDBC组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-数据库连接"><span class="nav-number">3.</span> <span class="nav-text">1.数据库连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加载驱动"><span class="nav-number">3.1.</span> <span class="nav-text">加载驱动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#得到连接"><span class="nav-number">3.2.</span> <span class="nav-text">得到连接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-操作数据库"><span class="nav-number">4.</span> <span class="nav-text">2.操作数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-取得结果"><span class="nav-number">5.</span> <span class="nav-text">3.取得结果</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本的JDBC组件"><span class="nav-number">2.</span> <span class="nav-text">基本的JDBC组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库连接"><span class="nav-number">2.1.</span> <span class="nav-text">数据库连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加载驱动"><span class="nav-number">2.1.1.</span> <span class="nav-text">加载驱动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#得到连接"><span class="nav-number">2.1.2.</span> <span class="nav-text">得到连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作数据库"><span class="nav-number">2.2.</span> <span class="nav-text">操作数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#取得结果"><span class="nav-number">2.3.</span> <span class="nav-text">取得结果</span></a></li></ol></li></ol></div>
             
 
           </div>
