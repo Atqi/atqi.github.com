@@ -92,15 +92,15 @@
 <meta property="og:url" content="http://yoursite.com/2017/03/20/Hadoop权威指南/index.html">
 <meta property="og:site_name" content="Wyatt's blog">
 <meta property="og:description" content="前言Hadoop权威指南笔记">
-<meta property="og:image" content="http://yoursite.com/images/客户端读取HDFS中的数据.png">
-<meta property="og:image" content="http://yoursite.com/images/客户端将数据写入HDFS.png">
-<meta property="og:image" content="http://yoursite.com/images/writable类.png">
-<meta property="og:image" content="http://yoursite.com/images/基本类型writable类.png">
-<meta property="og:updated_time" content="2017-03-20T03:16:31.994Z">
+<meta property="og:image" content="http://yoursite.com/images/clientReadData.png">
+<meta property="og:image" content="http://yoursite.com/images/clientWriteData.png">
+<meta property="og:image" content="http://yoursite.com/images/writableClass.png">
+<meta property="og:image" content="http://yoursite.com/images/Typewritable.png">
+<meta property="og:updated_time" content="2017-03-20T03:22:40.247Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop权威指南">
 <meta name="twitter:description" content="前言Hadoop权威指南笔记">
-<meta name="twitter:image" content="http://yoursite.com/images/客户端读取HDFS中的数据.png">
+<meta name="twitter:image" content="http://yoursite.com/images/clientReadData.png">
 
 
 
@@ -462,8 +462,8 @@
 <p>将本地文件复制到Hadoop文件系统<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileCopyWithProgress</span> </span>&#123; </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String)</span> args) <span class="keyword">throws</span> Exception </span>&#123; </div><div class="line">        String localSrc = args[<span class="number">0</span>]; </div><div class="line">        String dist = args[<span class="number">1</span>];</div><div class="line">        </div><div class="line">        InputStream in = <span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(localSrc));</div><div class="line">        </div><div class="line">        Configuration conf = <span class="keyword">new</span> configuration(); </div><div class="line">        Filesystem fs = Filesystem.get(URI.create (dist), conf); </div><div class="line">        </div><div class="line">        OutputStream out = fs.create(<span class="keyword">new</span> Path (dist), <span class="keyword">new</span> Progressable () &#123; </div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">progress</span><span class="params">()</span> </span>&#123; </div><div class="line">                System.out.print(<span class="string">"."</span>); &#125; </div><div class="line">        &#125;);</div><div class="line">        </div><div class="line">        IOUtilis. copyBytes (in, out, <span class="number">4096</span>, <span class="keyword">true</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h2 id="查询文件系统"><a href="#查询文件系统" class="headerlink" title="查询文件系统"></a>查询文件系统</h2><h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">delete</span><span class="params">(Path f, <span class="keyword">boolean</span> recursive)</span> <span class="keyword">throws</span> IOException</span></div></pre></td></tr></table></figure>
 <p>只有recursive为true时,非空目录及其内容才会被删除, 否则会抛出IOException异常</p>
-<h2 id="数据流"><a href="#数据流" class="headerlink" title="数据流"></a>数据流</h2><p><img src="/images/客户端读取HDFS中的数据.png" alt=""></p>
-<p><img src="/images/客户端将数据写入HDFS.png" alt=""></p>
+<h2 id="数据流"><a href="#数据流" class="headerlink" title="数据流"></a>数据流</h2><p><img src="/images/clientReadData.png" alt=""></p>
+<p><img src="/images/clientWriteData.png" alt=""></p>
 <h3 id="写入故障处理"><a href="#写入故障处理" class="headerlink" title="写入故障处理:"></a>写入故障处理:</h3><p>如果写入的时候，复制管道中的某一个DataNode无法将数据写入磁盘（如DataNode死机）。发生这种错误时，管道会立即关闭，已发送的但尚未收到确认的数据包会被退回到队列中，以确保管道中错误节点的下游节点可以得到数据包。而剩下的健康的DataNode中，正在写入的数据块会被分配新的blk_id。这样，当发生故障的数据节点恢复后，冗余的数据块就会因为不属于任何文件而被自动丢弃，由剩余DataNode节点组成的新复制管道会重新开放，写入操作得以继续，写操作将继续直至文件关闭。NameNode如果发现文件的某个数据块正在通过复制管道进行复制，就会异步地创建一个新的复制块，这样，即便HDFS的多个DataNode发生错误，HDFS客户端仍然可以从数据块的副本中恢复数据，前提是满足最少数目要求的数据副本（dfs.replication.min）已经被正确写入（dfs.replication.min配置默认为1）。</p>
 <h3 id="一致模型"><a href="#一致模型" class="headerlink" title="一致模型"></a>一致模型</h3><p>新建一个文件后, 它能在文件系统的命名空间中立即可见.但是,写入文件的内容却不保证立即可见,即使数据流已经刷新并存储.所以文件长度显示为0.当写入的数据超过一个快之后,第一个数据块对新的reader就是可见的.如果其他reader要看到所有已经写入的数据,就应该用hflush()或者hsync()同步方法.</p>
 <h2 id="通过Flume和Sqooq导入数据"><a href="#通过Flume和Sqooq导入数据" class="headerlink" title="通过Flume和Sqooq导入数据"></a>通过Flume和Sqooq导入数据</h2><h2 id="通过distcp并行复制"><a href="#通过distcp并行复制" class="headerlink" title="通过distcp并行复制"></a>通过distcp并行复制</h2><h2 id="Hadoop-存档"><a href="#Hadoop-存档" class="headerlink" title="Hadoop 存档"></a>Hadoop 存档</h2><p>大量小文件会耗尽namenode的内存<br>har文件,是一个更高效的文档工具,它将文件存入HDFS块,在减少namenode内存的使用的同时,允许对文件进行透明地访问.具体来说,Hadoop存档文件可以用作MapReduce的输入.</p>
@@ -503,9 +503,9 @@
 <p>WritableComparator是对继承自WritableComparable类的Rawcomparator类的一个通用实现.它提供两个功能.第一,它提供对原始compare()方法的一个默认实现,该方法能够反序列化将在流中进行比较的对象,并调用对象的compare()方法.第二,他充当的是RawComparator实例的工厂(已注册Writable的实现).例如,为了获得IntWritable的comparator,我们直接如下调用:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">RawComparator&lt;IntWritable&gt; comparator = WritableComparator.get(IntWritable.class);</div></pre></td></tr></table></figure></p>
 <p>这个comparator可以用于比较两个IntWritable对象或者两个序列化对象.</p>
 <h3 id="Writable类"><a href="#Writable类" class="headerlink" title="Writable类"></a>Writable类</h3><p>Hadoop 自带的org.apache.hadoop.io包中有广泛的Writable类可选.</p>
-<p><img src="/images/writable类.png" alt=""></p>
+<p><img src="/images/writableClass.png" alt=""></p>
 <h4 id="java基本类型的Writable封装器"><a href="#java基本类型的Writable封装器" class="headerlink" title="java基本类型的Writable封装器"></a>java基本类型的Writable封装器</h4><p>Writable类对java基本类型提供封装,char除外(可以存储在IntWritable中).所有的封装包含get()和set()两个方法用于读取或储存封装的值.</p>
-<p><img src="/images/基本类型writable类.png" alt=""></p>
+<p><img src="/images/Typewritable.png" alt=""></p>
 <p>对整数进行编码时,定长格式非常适合对整个值域空间中分布非常均匀的数值进行编码,如精心设计的哈希函数.大多数数值变量的分布都不均匀,而且变长格式一般更加节省空间.变长编码的另一个优点是可以在VIntWritable 和 VLongWritable转换,因为他们的编码实际上是一致的.所以选择变长格式之后,便有增长的空间,不必一开始就用8字节的long表示.</p>
 <h4 id="Text类型"><a href="#Text类型" class="headerlink" title="Text类型"></a>Text类型</h4><p>Text 是针对UTF-8序列的Writable类.Text替代了UTF8类,但并不是一个很好的替代,一者因为不支持对字节数超过32767的字符进行编码,二者因为它使用的是Java的UTF-8修订版.</p>
 <p>Text类使用整型(变长编码)来储存字符串所需的字节数,因此最大值为2GB.<br>由于着重使用标准的UTF-8编码,因此Text类和java String 类之间存在一定的差别.<br>对于Text类的索引是根据编码后字节序列中的位置是实现的(String 是根据char序列),并非字符串中的Unicode字符,也不是java char中的编码单元.<br>charAt()返回的是表示编码位置的整数.getBytes()方法返回的字节数组可能比getLength()函数返回的长度更长.</p>
