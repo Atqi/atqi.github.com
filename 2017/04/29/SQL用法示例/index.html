@@ -1,0 +1,839 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="sql," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言一些上课学的,没有题目,只有答案.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL用法示例">
+<meta property="og:url" content="http://atqi.github.io/2017/04/29/SQL用法示例/index.html">
+<meta property="og:site_name" content="Wyatt's blog">
+<meta property="og:description" content="前言一些上课学的,没有题目,只有答案.">
+<meta property="og:updated_time" content="2017-04-29T03:54:52.393Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SQL用法示例">
+<meta name="twitter:description" content="前言一些上课学的,没有题目,只有答案.">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'P70I32CZZY',
+      apiKey: 'ca830abc2a5f90e6899f2fcb15b01569',
+      indexName: 'blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"搜索文章","hits_empty":"没有找到结果: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://atqi.github.io/2017/04/29/SQL用法示例/"/>
+
+
+
+
+
+  <title> SQL用法示例 | Wyatt's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b7ee5c024043c8ecd0e33f636ce4921d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wyatt's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://atqi.github.io/2017/04/29/SQL用法示例/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="黄文启">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wyatt's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                SQL用法示例
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-29T00:14:04+08:00">
+                2017-04-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/" itemprop="url" rel="index">
+                    <span itemprop="name">学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/29/SQL用法示例/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/04/29/SQL用法示例/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一些上课学的,没有题目,只有答案.</p>
+<a id="more"></a>
+<h2 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--建立数据库 [例3-1]</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> Teach</div><div class="line"><span class="keyword">ON</span></div><div class="line">(	<span class="keyword">NAME</span>=Teach_Data,</div><div class="line">	FILENAME=<span class="string">'D:\TeachData.mdf'</span>,</div><div class="line">	<span class="keyword">SIZE</span>=<span class="number">10</span>,</div><div class="line">	<span class="keyword">MAXSIZE</span>=<span class="number">50</span>,</div><div class="line">	FILEGROWTH=<span class="number">5</span>)</div><div class="line"><span class="keyword">LOG</span> <span class="keyword">ON</span></div><div class="line">(	<span class="keyword">NAME</span>=Teach_Log,</div><div class="line">	FILENAME=<span class="string">'D:\TeachLog.ldf'</span>,</div><div class="line">	<span class="keyword">SIZE</span>=<span class="number">5</span>,</div><div class="line">	<span class="keyword">MAXSIZE</span>=<span class="number">25</span>,</div><div class="line">	FILEGROWTH=<span class="number">5</span>) </div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">use</span> Teach</div><div class="line"></div><div class="line"><span class="comment">--[例3-2] 修改Northwind数据库中的Northwind文件增容方式为一次增加2MB。 </span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> Northwind</div><div class="line"><span class="keyword">MODIFY</span> <span class="keyword">FILE</span></div><div class="line">(	<span class="keyword">NAME</span> = Northwind,</div><div class="line"> 	FILEGROWTH = <span class="number">2</span>mb </div><div class="line">)</div><div class="line"></div><div class="line"><span class="comment">--系统存储过程显示数据库信息</span></div><div class="line">EXEC Sp_helpdb Northwind</div><div class="line"><span class="keyword">USE</span> Northwind</div><div class="line">EXEC Sp_helpfile</div><div class="line">EXEC Sp_helpfilegroup</div><div class="line"></div><div class="line"><span class="comment">--[例3-3] 删除数据库Teach。</span></div><div class="line"><span class="keyword">DROP</span> <span class="keyword">DATABASE</span> Teach</div></pre></td></tr></table></figure>
+<h2 id="表格操作"><a href="#表格操作" class="headerlink" title="表格操作"></a>表格操作</h2><h3 id="建立学生信息表"><a href="#建立学生信息表" class="headerlink" title="建立学生信息表"></a>建立学生信息表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--[例3-4]  用SQL命令建立一个学生表S</span></div><div class="line"><span class="comment">--[例3-6]  定义SN为惟一键。</span></div><div class="line"><span class="comment">--[例3-7]  定义SN+SEX为惟一键，此约束为表约束。</span></div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> S</div><div class="line"></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> S </div><div class="line"><span class="keyword">ADD</span></div><div class="line">Class_No <span class="built_in">CHAR</span>(<span class="number">6</span>),</div><div class="line">Address <span class="built_in">CHAR</span>(<span class="number">40</span>)</div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> S</div><div class="line">(   SNo <span class="built_in">CHAR</span>(<span class="number">6</span>) <span class="keyword">CONSTRAINT</span> S_Prim PRIMARY <span class="keyword">KEY</span>,</div><div class="line">    SN <span class="built_in">CHAR</span>(<span class="number">8</span>) <span class="keyword">CONSTRAINT</span> SN_Uniq <span class="keyword">UNIQUE</span>,</div><div class="line">    Sex <span class="built_in">CHAR</span>(<span class="number">2</span>) <span class="keyword">DEFAULT</span> <span class="string">'男'</span>,</div><div class="line">    Age <span class="built_in">INT</span>,</div><div class="line">    Dept <span class="built_in">VARCHAR</span>(<span class="number">20</span>),</div><div class="line">    <span class="keyword">CONSTRAINT</span> S_UNIQ <span class="keyword">UNIQUE</span>(SN, Sex))</div><div class="line">    </div><div class="line">    </div><div class="line"><span class="comment">--[例3-13] 在S表中增加一个班号列和住址列。</span></div><div class="line"><span class="comment">--使用此方式增加的新列自动填充NULL值，所以不能为增加的新列指定NOT NULL约束。</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> S </div><div class="line"><span class="keyword">ADD</span></div><div class="line">Class_No <span class="built_in">CHAR</span>(<span class="number">6</span>),</div><div class="line">Address <span class="built_in">CHAR</span>(<span class="number">40</span>)</div></pre></td></tr></table></figure>
+<h3 id="建立学生选课表"><a href="#建立学生选课表" class="headerlink" title="建立学生选课表"></a>建立学生选课表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--[例3-9]  定义SNo+CNo为SC的主键</span></div><div class="line"><span class="comment">--[例3-10]  定义SNo,CNo为SC的外部键。</span></div><div class="line"><span class="comment">--[例3-11]  定义Score的取值范围为0～100之间。</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> SC</div><div class="line">(	SNo <span class="built_in">CHAR</span>(<span class="number">5</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">CONSTRAINT</span> S_Fore FOREIGN <span class="keyword">KEY</span> <span class="keyword">REFERENCES</span> S(SNo),</div><div class="line">   CNo <span class="built_in">CHAR</span>(<span class="number">5</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">CONSTRAINT</span> C_Fore FOREIGN <span class="keyword">KEY</span> <span class="keyword">REFERENCES</span> C(CNo),</div><div class="line">   Score <span class="built_in">NUMERIC</span>(<span class="number">4</span>,<span class="number">1</span>) <span class="keyword">CONSTRAINT</span> Score_Chk <span class="keyword">CHECK</span>(Score&gt;=<span class="number">0</span> <span class="keyword">AND</span> Score &lt;=<span class="number">100</span>),</div><div class="line">   <span class="keyword">CONSTRAINT</span> SC_Prim PRIMARY <span class="keyword">KEY</span>(SNo,CNo))</div></pre></td></tr></table></figure>
+<h3 id="修改表格"><a href="#修改表格" class="headerlink" title="修改表格"></a>修改表格</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--[例3-14] 在SC表中增加完整性约束定义，使Score在0～100之间</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> SCo</div><div class="line"><span class="keyword">ADD</span> </div><div class="line"><span class="keyword">CONSTRAINT</span> Score_Chk <span class="keyword">CHECK</span>(Score <span class="keyword">BETWEEN</span> <span class="number">0</span> <span class="keyword">AND</span> <span class="number">100</span>)</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">--[例3-15] 把S表中的SN列加宽到10个字符。</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> S</div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">COLUMN</span></div><div class="line">SN <span class="built_in">CHAR</span>(<span class="number">10</span>)</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">--[例3-16] 删除S表中的主键约束。</span></div><div class="line">	<span class="keyword">ALTER</span> <span class="keyword">TABLE</span> S</div><div class="line">	<span class="keyword">DROP</span> <span class="keyword">CONSTRAINT</span> S_Prim </div><div class="line"></div><div class="line"><span class="comment">--[例-补] 删除S表中的一列“Address”</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> S</div><div class="line"><span class="keyword">DROP</span> <span class="keyword">COLUMN</span>  Address</div></pre></td></tr></table></figure>
+<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--[例3-18]  为表SC在SNo和CNo上建立惟一索引。</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> <span class="keyword">INDEX</span> SCI <span class="keyword">ON</span> SC(SNo,CNo)</div><div class="line"></div><div class="line"><span class="comment">--[例3-19]  为教师表T在TN上建立聚集索引。</span></div><div class="line"><span class="keyword">CREATE</span> CLUSTERED <span class="keyword">INDEX</span> TI <span class="keyword">ON</span> T(TN)</div><div class="line"></div><div class="line"><span class="comment">--[例3-20]  查看表SC的索引。</span></div><div class="line">EXEC Sp_helpindex SC </div><div class="line"></div><div class="line"><span class="comment">--[例3-21]  更改T表中的索引TI名称为T_Index。</span></div><div class="line">EXEC Sp_rename <span class="string">'T.TI'</span>, <span class="string">'T_Index'</span>, <span class="string">'index'</span> </div><div class="line">EXEC Sp_helpindex T</div><div class="line"></div><div class="line"><span class="comment">--[例3-22]  删除表SC的索引SCI。</span></div><div class="line"><span class="keyword">DROP</span> <span class="keyword">INDEX</span> SC.SCI</div></pre></td></tr></table></figure>
+<h3 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--向S表插入数据</span></div><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> S (SNo, SN, Age, Sex, Dept) <span class="keyword">VALUES</span> (<span class="string">'S1'</span>, <span class="string">'赵亦'</span>, <span class="number">17</span>, <span class="string">'男'</span>, <span class="string">'计算机'</span>)</div></pre></td></tr></table></figure>
+<h3 id="查询操作"><a href="#查询操作" class="headerlink" title="查询操作"></a>查询操作</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> SNo, SN, Age <span class="keyword">FROM</span> S</div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> SN <span class="keyword">Name</span>, <span class="keyword">DISTINCT</span> SNo, Age <span class="keyword">FROM</span> S</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--where条件用法</span></div><div class="line"><span class="comment">--[例3-28]</span></div><div class="line"><span class="keyword">SELECT</span> SNo,CNo,Score <span class="keyword">FROM</span> SC <span class="keyword">WHERE</span> Score&gt;<span class="number">85</span> </div><div class="line"><span class="comment">--[例3-29]</span></div><div class="line"><span class="keyword">SELECT</span> SNo, CNo, Score <span class="keyword">FROM</span> SC <span class="keyword">WHERE</span> (CNo = <span class="string">'C1'</span> <span class="keyword">OR</span> CNo = <span class="string">'C2'</span>) <span class="keyword">AND</span> (Score &gt;= <span class="number">85</span>) </div><div class="line"><span class="comment">--[例3-30]</span></div><div class="line"><span class="keyword">SELECT</span> TNo,TN,Prof,Sal <span class="keyword">FROM</span> T <span class="keyword">WHERE</span> Sal <span class="keyword">BETWEEN</span> <span class="number">1000</span> <span class="keyword">AND</span> <span class="number">1500</span> </div><div class="line"><span class="comment">--例3-31]</span></div><div class="line"><span class="keyword">SELECT</span> TNo,TN,Prof,Sal  <span class="keyword">FROM</span> T <span class="keyword">WHERE</span> Sal <span class="keyword">NOT</span> <span class="keyword">BETWEEN</span> <span class="number">1000</span> <span class="keyword">AND</span> <span class="number">1500</span> </div><div class="line"><span class="comment">--[例3-32]</span></div><div class="line"><span class="keyword">SELECT</span> SNo,CNo,Score <span class="keyword">FROM</span> SC <span class="keyword">WHERE</span> CNo <span class="keyword">IN</span>(<span class="string">'C1'</span>,<span class="string">'C2'</span>) </div><div class="line"><span class="comment">--[例3-33]</span></div><div class="line"><span class="keyword">SELECT</span> SNo,CNo,Score <span class="keyword">FROM</span> SC <span class="keyword">WHERE</span> CNo <span class="keyword">NOT</span> <span class="keyword">IN</span>(<span class="string">'C1'</span>,<span class="string">'C2'</span>) </div><div class="line"><span class="comment">--[例3-35]</span></div><div class="line"><span class="keyword">SELECT</span> TNo, TN <span class="keyword">FROM</span> T <span class="keyword">WHERE</span> TN <span class="keyword">LIKE</span> <span class="string">'__力%'</span></div><div class="line"><span class="comment">--[例3-36]</span></div><div class="line"><span class="keyword">SELECT</span> SNo, CNo <span class="keyword">FROM</span> SC <span class="keyword">WHERE</span> Score <span class="keyword">IS</span> <span class="keyword">not</span> <span class="literal">NULL</span></div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--函数使用</span></div><div class="line"><span class="comment">--[例3-37]</span></div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">SUM</span>(Score) <span class="keyword">AS</span> TotalScore, <span class="keyword">AVG</span>(Score) <span class="keyword">AS</span> AveScore <span class="keyword">FROM</span> SC <span class="keyword">WHERE</span> (SNo = <span class="string">'S1'</span>) </div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">SUM</span>(Score) , <span class="keyword">AVG</span>(Score)  <span class="keyword">FROM</span> SC <span class="keyword">WHERE</span> (SNo = <span class="string">'S1'</span>) </div><div class="line"><span class="comment">--[例3-38]</span></div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">MAX</span>(Score) <span class="keyword">AS</span> MaxScore, </div><div class="line">       <span class="keyword">MIN</span>(Score) <span class="keyword">AS</span> MinScore, </div><div class="line">       <span class="keyword">MAX</span>(Score)-<span class="keyword">MIN</span>(Score) <span class="keyword">AS</span> Diff <span class="keyword">FROM</span> SC <span class="keyword">WHERE</span> (CNo = <span class="string">'C1'</span>)</div><div class="line"><span class="comment">--[例3-40]</span></div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> Dept) <span class="keyword">AS</span> DeptNum <span class="keyword">FROM</span> S</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--[例3-44]</span></div><div class="line"><span class="keyword">SELECT</span> SNo, <span class="keyword">COUNT</span>(*) <span class="keyword">AS</span> SC_Num <span class="keyword">FROM</span> SC <span class="keyword">GROUP</span> <span class="keyword">BY</span> SNo <span class="keyword">HAVING</span> (<span class="keyword">COUNT</span>(*) &gt;= <span class="number">2</span>)</div><div class="line"><span class="comment">--[例3-46]</span></div><div class="line"><span class="keyword">SELECT</span> SNo, CNo, Score</div><div class="line"><span class="keyword">FROM</span> SC</div><div class="line"><span class="keyword">WHERE</span> (CNo <span class="keyword">IN</span> (<span class="string">'C2'</span>, <span class="string">'C3'</span>, <span class="string">'C4'</span>, <span class="string">'C5'</span>))</div><div class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> SNo, Score <span class="keyword">DESC</span></div><div class="line"><span class="comment">--[例3-48]</span></div><div class="line"><span class="keyword">SELECT</span> R1.TNo, R2.TN, R1.CNo</div><div class="line"><span class="keyword">FROM</span></div><div class="line">(<span class="keyword">SELECT</span> TNo,CNo <span class="keyword">FROM</span> TC) <span class="keyword">AS</span> R1</div><div class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span></div><div class="line">(<span class="keyword">SELECT</span> TNo,TN <span class="keyword">FROM</span> T <span class="keyword">WHERE</span> TN=<span class="string">'刘伟'</span>) <span class="keyword">AS</span> R2</div><div class="line"><span class="keyword">ON</span> R1.TNo=R2.TNo</div><div class="line"><span class="comment">--[例3-49]</span></div><div class="line"><span class="keyword">SELECT</span> S.SNo,SN,CN,Score</div><div class="line"><span class="keyword">FROM</span> S,C,SC</div><div class="line"><span class="keyword">WHERE</span> S.SNo=SC.SNo <span class="keyword">AND</span> SC.CNo=C.CNo </div><div class="line"><span class="comment">--[例3-50]</span></div><div class="line"><span class="keyword">SELECT</span> CN,TN,PROF,<span class="keyword">COUNT</span>(SC.SNo) </div><div class="line"><span class="keyword">FROM</span> C,T,TC,SC </div><div class="line"><span class="keyword">WHERE</span> T.TNo=TC.TNo <span class="keyword">AND</span> C.CNo=TC.CNo <span class="keyword">AND</span> SC.CNo=C.CNo </div><div class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> CN,TN,PROF</div><div class="line"><span class="comment">--[例3-50]</span></div><div class="line"><span class="keyword">SELECT</span> SC.CNO,CN,TN,PROF,SC.SNo</div><div class="line"><span class="keyword">FROM</span> C,T,TC,SC </div><div class="line"><span class="keyword">WHERE</span> T.TNo=TC.TNo <span class="keyword">AND</span> C.CNo=TC.CNo <span class="keyword">AND</span> SC.CNo=C.CNo </div><div class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> CN,TN,SC.SNo</div><div class="line"><span class="comment">--外连接</span></div><div class="line"><span class="keyword">SELECT</span> S.SNo,SN,CN,Score</div><div class="line"><span class="keyword">FROM</span> S</div><div class="line"><span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> SC</div><div class="line"><span class="keyword">ON</span> S.SNo=SC.SNo</div><div class="line"><span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> C</div><div class="line"><span class="keyword">ON</span> C.CNo=SC.CNo  </div><div class="line"><span class="comment">--内连接</span></div><div class="line"><span class="keyword">SELECT</span> S.SNo,SN,CN,Score</div><div class="line"><span class="keyword">FROM</span> S</div><div class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> SC</div><div class="line"><span class="keyword">ON</span> S.SNo=SC.SNo</div><div class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> C</div><div class="line"><span class="keyword">ON</span> C.CNo=SC.CNo</div><div class="line"><span class="comment">--[例3-55] 方法1</span></div><div class="line"><span class="keyword">SELECT</span> TN</div><div class="line"><span class="keyword">FROM</span> T</div><div class="line"><span class="keyword">WHERE</span> (TNo = <span class="keyword">ANY</span> (<span class="keyword">SELECT</span> TNo</div><div class="line">                  <span class="keyword">FROM</span> TC</div><div class="line">                  <span class="keyword">WHERE</span> CNo = <span class="string">'C5'</span>)) </div><div class="line"><span class="comment">/*[例3-60]*/</span></div><div class="line"><span class="keyword">SELECT</span> TN</div><div class="line"><span class="keyword">FROM</span> T</div><div class="line"><span class="keyword">WHERE</span> <span class="keyword">EXISTS</span> ( <span class="keyword">SELECT</span> * </div><div class="line">               <span class="keyword">FROM</span> TC</div><div class="line">               <span class="keyword">WHERE</span> TNO=T.TNO <span class="keyword">AND</span> CNO=<span class="string">'C5'</span>)</div><div class="line"><span class="comment">--含有IN的查询通常可用EXISTS表示</span></div><div class="line"><span class="keyword">SELECT</span> TN</div><div class="line"><span class="keyword">FROM</span> T</div><div class="line"><span class="keyword">WHERE</span> (TNo <span class="keyword">IN</span> (<span class="keyword">SELECT</span> TNo</div><div class="line">                  <span class="keyword">FROM</span> TC</div><div class="line">                  <span class="keyword">WHERE</span> CNo = <span class="string">'C5'</span>))</div><div class="line"><span class="comment">--[例3-62]</span></div><div class="line"><span class="keyword">SELECT</span> SN</div><div class="line"><span class="keyword">FROM</span> S</div><div class="line"><span class="keyword">WHERE</span> (<span class="keyword">NOT</span> <span class="keyword">EXISTS</span> ( <span class="keyword">SELECT</span> *</div><div class="line">         	    <span class="keyword">FROM</span> C</div><div class="line">                    <span class="keyword">WHERE</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> ( <span class="keyword">SELECT</span> *</div><div class="line">	                               <span class="keyword">FROM</span> SC</div><div class="line">                  		       <span class="keyword">WHERE</span> SNo = S.SNo <span class="keyword">AND</span> CNo = C.CNo)))</div></pre></td></tr></table></figure>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--[例3-77]</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> S_SC_C(SNo, SN, CN, Score) </div><div class="line">	<span class="keyword">AS</span> 	<span class="keyword">SELECT</span> S.SNo, SN, CN, Score</div><div class="line">	    	<span class="keyword">FROM</span> S, C, SC</div><div class="line">	    	<span class="keyword">WHERE</span> S.SNo = SC.SNo <span class="keyword">AND</span> SC.CNo = C.CNo </div><div class="line"><span class="comment">--[例3-79]</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">VIEW</span> S_SC_C(SN, CN, Score) </div><div class="line">	<span class="keyword">AS</span>    <span class="keyword">SELECT</span> SN, CN, Score</div><div class="line">	      <span class="keyword">FROM</span> S, C, SC</div><div class="line">	      <span class="keyword">WHERE</span> S.SNo = SC.SNo <span class="keyword">AND</span> SC.CNo = C.CNo </div><div class="line"><span class="comment">--[例3-80]</span></div><div class="line"><span class="keyword">DROP</span> <span class="keyword">VIEW</span> S_SC_C</div><div class="line"><span class="comment">--[例3-82]</span></div><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span>  SUB_T</div><div class="line"><span class="keyword">VALUES</span> (<span class="string">'T6'</span>,<span class="string">'李丹'</span>,<span class="string">'副教授'</span>)</div><div class="line"><span class="comment">--[例3-84]</span></div><div class="line"><span class="keyword">DELETE</span> </div><div class="line"><span class="keyword">FROM</span> SUB_T</div><div class="line"><span class="keyword">WHERE</span> TN=<span class="string">'刘伟'</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/sql/" rel="tag"># sql</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/28/单例模式/" rel="next" title="单例模式">
+                <i class="fa fa-chevron-left"></i> 单例模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="黄文启" />
+          <p class="site-author-name" itemprop="name">黄文启</p>
+           
+              <p class="site-description motion-element" itemprop="description">有花堪折直须折 莫待无花空折枝</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/atqi" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/atqigg" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库操作"><span class="nav-number">2.</span> <span class="nav-text">数据库操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表格操作"><span class="nav-number">3.</span> <span class="nav-text">表格操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立学生信息表"><span class="nav-number">3.1.</span> <span class="nav-text">建立学生信息表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立学生选课表"><span class="nav-number">3.2.</span> <span class="nav-text">建立学生选课表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改表格"><span class="nav-number">3.3.</span> <span class="nav-text">修改表格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引"><span class="nav-number">3.4.</span> <span class="nav-text">索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入数据"><span class="nav-number">3.5.</span> <span class="nav-text">插入数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询操作"><span class="nav-number">3.6.</span> <span class="nav-text">查询操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视图"><span class="nav-number">4.</span> <span class="nav-text">视图</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">黄文启</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'dis-13';
+      var disqus_identifier = '2017/04/29/SQL用法示例/';
+
+      var disqus_title = "SQL用法示例";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>
