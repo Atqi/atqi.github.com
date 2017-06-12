@@ -1,0 +1,854 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="kafka," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="概述Apache Kafka™ is a distributed streaming platform.我使用的是 kafka 0.9+。参考官方文档，本文包括kafka的集群架构和工作原理，配置文件解析，常用脚本命令和java API操作。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kafka配置及实践">
+<meta property="og:url" content="http://atqi.github.io/2017/06/11/kafka配置及实践/index.html">
+<meta property="og:site_name" content="Wyatt's blog">
+<meta property="og:description" content="概述Apache Kafka™ is a distributed streaming platform.我使用的是 kafka 0.9+。参考官方文档，本文包括kafka的集群架构和工作原理，配置文件解析，常用脚本命令和java API操作。">
+<meta property="og:image" content="http://atqi.github.io/images/kafka.png">
+<meta property="og:image" content="http://atqi.github.io/images/log_anatomy.png">
+<meta property="og:image" content="http://atqi.github.io/images/log_consumer2.png">
+<meta property="og:image" content="http://atqi.github.io/images/consumer-groups.png">
+<meta property="og:updated_time" content="2017-06-12T11:31:28.959Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kafka配置及实践">
+<meta name="twitter:description" content="概述Apache Kafka™ is a distributed streaming platform.我使用的是 kafka 0.9+。参考官方文档，本文包括kafka的集群架构和工作原理，配置文件解析，常用脚本命令和java API操作。">
+<meta name="twitter:image" content="http://atqi.github.io/images/kafka.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'P70I32CZZY',
+      apiKey: 'ca830abc2a5f90e6899f2fcb15b01569',
+      indexName: 'blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"搜索文章","hits_empty":"没有找到结果: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://atqi.github.io/2017/06/11/kafka配置及实践/"/>
+
+
+
+
+
+  <title> kafka配置及实践 | Wyatt's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b7ee5c024043c8ecd0e33f636ce4921d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wyatt's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://atqi.github.io/2017/06/11/kafka配置及实践/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="黄文启">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wyatt's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                kafka配置及实践
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-11T21:41:44+08:00">
+                2017-06-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdate/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdate</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdate/kafka/" itemprop="url" rel="index">
+                    <span itemprop="name">kafka</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/11/kafka配置及实践/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/11/kafka配置及实践/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><a href="https://kafka.apache.org/intro.html" target="_blank" rel="external">Apache Kafka™ is a distributed streaming platform.</a><br>我使用的是 kafka 0.9+。<br>参考官方文档，本文包括kafka的集群架构和工作原理，配置文件解析，常用脚本命令和java API操作。<br><a id="more"></a></p>
+<h2 id="kafka的集群架构和原理"><a href="#kafka的集群架构和原理" class="headerlink" title="kafka的集群架构和原理"></a>kafka的集群架构和原理</h2><p><img src="/images/kafka.png" alt="kafka"></p>
+<h3 id="Topics-and-Logs"><a href="#Topics-and-Logs" class="headerlink" title="Topics and Logs"></a>Topics and Logs</h3><p>Topic - 每个消息所属的类别，用来区分消息<br>partition - 对于一个topic来说，可以配置多个partition来分开存放这个Topic的消息<br><img src="/images/log_anatomy.png" alt="单个partition按顺序存放"><br>对于一个topic来说，生产出来的消息会被分发到各个partition内存储。一个消息被分发到哪个partition内是可配置的。<br>消息在每个partition内都是有序的，但是整体是不能保证有序的。partition内的数据存放到日志文件中，每个partition中的记录都被分配一个顺序的id号，称为唯一标识partition内每个记录的偏移量。<br>kakfa会保留所有的数据，即使是已经被消费过的数据。只有数据过期了才会被删除，数据保留多久是可以配置的。<br><img src="/images/log_consumer2.png" alt="消息的消费"><br>消费者通过partition内的偏移量来读取消息，就像读取一个数组一样，可以重复访问任何数据。</p>
+<h3 id="Distribution"><a href="#Distribution" class="headerlink" title="Distribution"></a>Distribution</h3><p>日志的分区分布在Kafka集群中的服务器(broker)上，每个服务器处理数据并请求分区的一部分。每个分区都跨可配置数量的服务器进行复制，以实现容错。<br>每个分区有一个服务器，充当“leader”，零个或多个服务器充当“关注者”。领导者处理分区的所有读取和写入请求，而追随者被动地复制领导者。如果领导失败，其中一个追随者将自动成为新的领导者。每个服务器都作为一些partitions的leader，和其他的partitions的follower。(既是leader，也是follower)</p>
+<h3 id="Producers"><a href="#Producers" class="headerlink" title="Producers"></a>Producers</h3><p>生产者将数据发布到他们选择的主题。生产者负责选择要分配给主题中哪个分区的记录。这可以通过循环方式简单地平衡负载，或者可以根据某些语义分区功能（例如基于记录中的某些关键字）来完成。</p>
+<h3 id="Consumers"><a href="#Consumers" class="headerlink" title="Consumers"></a>Consumers</h3><p>每个consumer都可以指定一个consumergroup,若不指定就属于默认的Group。Consumer Group作为订阅topics的基本单位。该Group订阅的topics中的一个partition只能由组内的一个consumer消费，如果组内的consumers个数多于partitions的数目，那么意味着某些consumers将不会得到任何消息,所以consumer数不能多于partition数。如果某个consumer失败，那么它负责的partitions将会分配到其他的consumer上。<br><img src="/images/consumer-groups.png" alt="Consumer Group"></p>
+<h3 id="Kafka-as-a-Messaging-System"><a href="#Kafka-as-a-Messaging-System" class="headerlink" title="Kafka as a Messaging System"></a>Kafka as a Messaging System</h3><p>Kafka结合了队列和发布-订阅两种模式。消费者可以顺序读取数据，未来的数据将会发布给订阅者。</p>
+<h3 id="Kafka-as-a-Storage-System"><a href="#Kafka-as-a-Storage-System" class="headerlink" title="Kafka as a Storage System"></a>Kafka as a Storage System</h3><p>Kafka的数据都保存在本地磁盘中，每个partion都是一个文件夹(topic-xxx),存放在配置文件中指定的logs.dir中。一个partition由多个segment组成，每个segment由一个索引文件(.index)和一个数据文件(.log)组成。</p>
+<h2 id="配置文件解释"><a href="#配置文件解释" class="headerlink" title="配置文件解释"></a>配置文件解释</h2><h3 id="server-properties"><a href="#server-properties" class="headerlink" title="server.properties"></a>server.properties</h3><h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div></pre></td><td class="code"><pre><div class="line">############################# Server Basics #############################</div><div class="line"></div><div class="line"># The id of the broker. This must be set to a unique integer for each broker.</div><div class="line"># broker全局的唯一编号,不能重复</div><div class="line">broker.id=1</div><div class="line"></div><div class="line"># Switch to enable topic deletion or not, default value is false</div><div class="line"># 如果不设置为true的话,那么客户端删除一个topic将只会把topic标志为删,并不是真的删除.</div><div class="line"># 在企业中,一般设置为false,因为业务多,所以删除topic有很大风险</div><div class="line">delete.topic.enable=true</div><div class="line"></div><div class="line">############################# Socket Server Settings #############################</div><div class="line"></div><div class="line"># The address the socket server listens on. It will get the value returned from </div><div class="line"># java.net.InetAddress.getCanonicalHostName() if not configured.</div><div class="line">#   FORMAT:</div><div class="line">#     listeners = listener_name://host_name:port</div><div class="line">#   EXAMPLE:</div><div class="line">#     listeners = PLAINTEXT://your.host.name:9092</div><div class="line">listeners=PLAINTEXT://:9092</div><div class="line"></div><div class="line"># Hostname and port the broker will advertise to producers and consumers. If not set, </div><div class="line"># it uses the value for &quot;listeners&quot; if configured.  Otherwise, it will use the value</div><div class="line"># returned from java.net.InetAddress.getCanonicalHostName().</div><div class="line">#advertised.listeners=PLAINTEXT://your.host.name:9092</div><div class="line"></div><div class="line"># broker的主机,</div><div class="line">host.name=172.17.0.3</div><div class="line">port=9092</div><div class="line"></div><div class="line"># 向producers和consumers广播的ip地址和port(此处有坑,见后)</div><div class="line">advertised.host.name=10.0.0.100</div><div class="line">advertised.port=9092</div><div class="line"></div><div class="line"># Maps listener names to security protocols, the default is for them to be the same. See the config documentation for more details</div><div class="line">#listener.security.protocol.map=PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL</div><div class="line"></div><div class="line"># The number of threads handling network requests</div><div class="line"># 处理网络请求的线程数量</div><div class="line">num.network.threads=3</div><div class="line"></div><div class="line"># The number of threads doing disk I/O</div><div class="line"># 用来处理磁盘IO的线程数量</div><div class="line">num.io.threads=8</div><div class="line"></div><div class="line"># The send buffer (SO_SNDBUF) used by the socket server</div><div class="line"># 发送套接字的缓冲区大小</div><div class="line">socket.send.buffer.bytes=102400</div><div class="line"></div><div class="line"># The receive buffer (SO_RCVBUF) used by the socket server</div><div class="line"># 接受套接字的缓冲区大小</div><div class="line">socket.receive.buffer.bytes=102400</div><div class="line"></div><div class="line"># The maximum size of a request that the socket server will accept (protection against OOM)</div><div class="line"># 请求套接字的缓冲区大小</div><div class="line">socket.request.max.bytes=104857600</div><div class="line"></div><div class="line"></div><div class="line">############################# Log Basics #############################</div><div class="line"></div><div class="line"># A comma seperated list of directories under which to store log files</div><div class="line"># 数据存放的位置</div><div class="line">log.dirs=/tmp/kafka-logs</div><div class="line"></div><div class="line"># The default number of log partitions per topic. More partitions allow greater</div><div class="line"># parallelism for consumption, but this will also result in more files across</div><div class="line"># the brokers.</div><div class="line"># 一个topic在当前broker的partition数量</div><div class="line">num.partitions=1</div><div class="line"></div><div class="line"># The number of threads per data directory to be used for log recovery at startup and flushing at shutdown.</div><div class="line"># This value is recommended to be increased for installations with data dirs located in RAID array.</div><div class="line">num.recovery.threads.per.data.dir=1</div><div class="line"></div><div class="line">############################# Log Flush Policy #############################</div><div class="line"></div><div class="line"># Messages are immediately written to the filesystem but by default we only fsync() to sync</div><div class="line"># the OS cache lazily. The following configurations control the flush of data to disk.</div><div class="line"># There are a few important trade-offs here:</div><div class="line">#    1. Durability: Unflushed data may be lost if you are not using replication.</div><div class="line">#    2. Latency: Very large flush intervals may lead to latency spikes when the flush does occur as there will be a lot of data to flush.</div><div class="line">#    3. Throughput: The flush is generally the most expensive operation, and a small flush interval may lead to exceessive seeks.</div><div class="line"># The settings below allow one to configure the flush policy to flush data after a period of time or</div><div class="line"># every N messages (or both). This can be done globally and overridden on a per-topic basis.</div><div class="line"></div><div class="line"># The number of messages to accept before forcing a flush of data to disk</div><div class="line">#log.flush.interval.messages=10000</div><div class="line"></div><div class="line"># The maximum amount of time a message can sit in a log before we force a flush</div><div class="line">#log.flush.interval.ms=1000</div><div class="line"></div><div class="line">############################# Log Retention Policy #############################</div><div class="line"></div><div class="line"># The following configurations control the disposal of log segments. The policy can</div><div class="line"># be set to delete segments after a period of time, or after a given size has accumulated.</div><div class="line"># A segment will be deleted whenever *either* of these criteria are met. Deletion always happens</div><div class="line"># from the end of the log.</div><div class="line"></div><div class="line"># The minimum age of a log file to be eligible for deletion due to age</div><div class="line"># 数据保存的最长时间,超时就会被删除</div><div class="line">log.retention.hours=168</div><div class="line"></div><div class="line"># A size-based retention policy for logs. Segments are pruned from the log as long as the remaining</div><div class="line"># segments don&apos;t drop below log.retention.bytes. Functions independently of log.retention.hours.</div><div class="line">#log.retention.bytes=1073741824</div><div class="line"></div><div class="line"># The maximum size of a log segment file. When this size is reached a new log segment will be created.</div><div class="line"># 每个segment的大小</div><div class="line">log.segment.bytes=1073741824</div><div class="line"></div><div class="line"># The interval at which log segments are checked to see if they can be deleted according</div><div class="line"># to the retention policies</div><div class="line"># 周期性检查文件数据是否超时的时间</div><div class="line">log.retention.check.interval.ms=300000</div><div class="line"></div><div class="line"># 日志清理是否打开</div><div class="line">log.cleaner.enable=true</div><div class="line"></div><div class="line"></div><div class="line">############################# Zookeeper #############################</div><div class="line"></div><div class="line"># Zookeeper connection string (see zookeeper docs for details).</div><div class="line"># This is a comma separated host:port pairs, each corresponding to a zk</div><div class="line"># server. e.g. &quot;127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002&quot;.</div><div class="line"># You can also append an optional chroot string to the urls to specify the</div><div class="line"># root directory for all kafka znodes.</div><div class="line"># zookeeper的网络位置</div><div class="line">zookeeper.connect=zk1:2181</div><div class="line"></div><div class="line"># Timeout in ms for connecting to zookeeper</div><div class="line"># zookeeper连接超时时间</div><div class="line">zookeeper.connection.timeout.ms=6000</div></pre></td></tr></table></figure>
+<h4 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h4><p><a href="http://kelgon.iteye.com/blog/2287985" target="_blank" rel="external">参考文章</a><br>按照官方文档的说法，advertised.host.name和advertised.port这两个参数用于定义集群向Producer和 Consumer广播的节点host和port，如果不定义的话，会默认使用host.name和port的定义。但在实际应用中，我发现如果不定义 advertised.host.name参数，使用Java客户端从远端连接集群时，会发生连接超时，抛出异常：org.apache.kafka.common.errors.TimeoutException: Batch Expired<br>经过debug发现，连接到集群是成功的，但连接到集群后更新回来的集群meta信息却是错误的.<br>能够看到，metadata中的Cluster信息，节点的hostname是iZ25wuzqk91Z这样的一串数字，而不是实际的ip地址 10.0.0.100和101。iZ25wuzqk91Z其实是远端主机的hostname，这说明在没有配置advertised.host.name 的情况下，Kafka并没有像官方文档宣称的那样改为广播我们配置的host.name，而是广播了主机配置的hostname。远端的客户端并没有配置 hosts，所以自然是连接不上这个hostname的。要解决这一问题，把host.name和advertised.host.name都配置成绝对 的ip地址就可以了。</p>
+<h3 id="producer-properties"><a href="#producer-properties" class="headerlink" title="producer.properties"></a>producer.properties</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line">############################# Producer Basics #############################</div><div class="line"></div><div class="line"># list of brokers used for bootstrapping knowledge about the rest of the cluster</div><div class="line"># format: host1:port1,host2:port2 ...</div><div class="line"># 指定kafka节点列表,不用全部指定.从任意一个kafka节点都能得到全部kafka集群元数据</div><div class="line">bootstrap.servers=kfk1:9092,kfk2:9092,kfk3:9092</div><div class="line"></div><div class="line"># specify the compression codec for all data generated: none, gzip, snappy, lz4</div><div class="line"># 消息是否压缩  0:不压缩  1:用gzip压缩  2:用snappy压缩  3:用lz4压缩</div><div class="line"># 压缩后消息头指明压缩类型,故在消费者端消息解压是透明的且无需指定的</div><div class="line">compression.type=none</div><div class="line"></div><div class="line"># name of the partitioner class for partitioning events; default partition spreads data randomly</div><div class="line"># 指定分区类型,默认是key哈希到对应分区</div><div class="line">partitioner.class=kafka.producer.DefaultPartitioner</div><div class="line"></div><div class="line"># 设置发送消息是否需要服务端的反馈</div><div class="line"># 0:producer will not wait for ack</div><div class="line"># 1:send ACK when leader get</div><div class="line"># 2:send ACK when all follwers get</div><div class="line">#request.required.acks=0</div><div class="line"></div><div class="line"># the maximum amount of time the client will wait for the response of a request</div><div class="line">request.timeout.ms=10000</div><div class="line"></div><div class="line"># how long `KafkaProducer.send` and `KafkaProducer.partitionsFor` will block for</div><div class="line">#max.block.ms=</div><div class="line"></div><div class="line"># 同步还是异步分送消息, 默认同步&quot;sync&quot;, 异步为&quot;async&quot;</div><div class="line"># 异步可以提高吞吐量,消息将会缓存在本地buffer中,并适时批量发送,但是也有可能丢失消息</div><div class="line">producer.type=sync</div><div class="line"></div><div class="line"># 在异步模式下,当消息缓存的时间超过此值后将会被发送</div><div class="line">queue.buffering.max.ms=5000</div><div class="line"></div><div class="line"># 异步模式下,buffer最大缓存消息量,buffer中的消息量达到此阈值后,producer将会阻塞或者将接下来的消息抛弃</div><div class="line">queue.buffering.max.messages=10000</div><div class="line"></div><div class="line"># 在异步模式下,每次批量发送的数据量,默认为200</div><div class="line">batch.num.messages=500</div><div class="line"></div><div class="line"># 异步模式下,当buffer满了的时候,过了一定时间,buffer中依旧没有消息被发送,那么</div><div class="line"># -1 : producer继续阻塞,阻塞时间不限,消息不会被抛弃</div><div class="line"># 0 : 立刻清空buffer,消息被抛弃</div><div class="line">queue.enqueue.timeout.ms=-1</div><div class="line"></div><div class="line"># the producer will wait for up to the given delay to allow other records to be sent so that the sends can be batched together</div><div class="line">#linger.ms=</div><div class="line"></div><div class="line"># the maximum size of a request in bytes</div><div class="line">#max.request.size=</div><div class="line"></div><div class="line"># the default batch size in bytes when batching multiple records sent to a partition</div><div class="line">#batch.size=</div><div class="line"></div><div class="line"># the total bytes of memory the producer can use to buffer records waiting to be sent to the server</div><div class="line">#buffer.memory=</div></pre></td></tr></table></figure>
+<h3 id="consumer-properties"><a href="#consumer-properties" class="headerlink" title="consumer.properties"></a>consumer.properties</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"># Zookeeper connection string</div><div class="line"># comma separated host:port pairs, each corresponding to a zk</div><div class="line"># server. e.g. &quot;127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002&quot;</div><div class="line">zookeeper.connect=zk1:2181</div><div class="line"></div><div class="line"># timeout in ms for connecting to zookeeper</div><div class="line">zookeeper.connection.timeout.ms=6000</div><div class="line"></div><div class="line">#consumer group id</div><div class="line">group.id=test-consumer-group</div><div class="line"></div><div class="line">#consumer timeout</div><div class="line">#consumer.timeout.ms=5000</div></pre></td></tr></table></figure>
+<h2 id="常用脚本命令"><a href="#常用脚本命令" class="headerlink" title="常用脚本命令"></a>常用脚本命令</h2><p>启用一个broker实例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bin/kafka-server-start.sh config/server.properties</div></pre></td></tr></table></figure></p>
+<p>启用多个broker实例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">bin/kafka-server-start.sh config/server1.properties</div><div class="line">(broker.id要唯一，而且在同一个机器上运行时配置文件中的listeners=PLAINTEXT://:9093，log.dir=/tmp/kafka-logs-1不能重复)</div><div class="line">bin/kafka-server-start.sh config/server2.properties</div></pre></td></tr></table></figure></p>
+<p>创建一个topic<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test</div></pre></td></tr></table></figure></p>
+<p>删除一个topic<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bin/kafka-topics.sh --delete --zookeeper localhost:2181 --topic test</div></pre></td></tr></table></figure></p>
+<p>查看所有topic<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bin/kafka-topics.sh --list --zookeeper localhost:2181</div></pre></td></tr></table></figure></p>
+<p>查看某个topic的详细信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic my-replicated-topic</div></pre></td></tr></table></figure></p>
+<p>用控制台生产消息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test</div></pre></td></tr></table></figure></p>
+<p>用控制台消费消息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning</div></pre></td></tr></table></figure></p>
+<p><a href="https://kafka.apache.org/documentation.html#quickstart_kafkaconnect" target="_blank" rel="external">Use Kafka Connect to import/export data</a></p>
+<h2 id="java-API"><a href="#java-API" class="headerlink" title="java API"></a>java API</h2><p>producer<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Producer</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Properties props = <span class="keyword">new</span> Properties();</div><div class="line">        <span class="comment">//以下三项配置是必须的</span></div><div class="line">        props.put(<span class="string">"bootstrap.servers"</span>, <span class="string">"localhost:9092"</span>);</div><div class="line">        props.put(<span class="string">"key.serializer"</span>, <span class="string">"org.apache.kafka.common.serialization.StringSerializer"</span>); <span class="comment">//必须的</span></div><div class="line">        props.put(<span class="string">"value.serializer"</span>, <span class="string">"org.apache.kafka.common.serialization.StringSerializer"</span>);</div><div class="line">        Producer&lt;String, String&gt; producer = <span class="keyword">new</span> KafkaProducer&lt;&gt;(props);</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++)</div><div class="line">            producer.send(<span class="keyword">new</span> ProducerRecord&lt;String, String&gt;(<span class="string">"my-topic"</span>, Integer.toString(i), Integer.toString(i)));</div><div class="line">        producer.close();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>consumer<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Consumer</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Properties props = <span class="keyword">new</span> Properties();</div><div class="line">        props.put(<span class="string">"bootstrap.servers"</span>, <span class="string">"localhost:9092"</span>);</div><div class="line">        props.put(<span class="string">"group.id"</span>, <span class="string">"test"</span>);</div><div class="line">        props.put(<span class="string">"enable.auto.commit"</span>, <span class="string">"true"</span>);</div><div class="line">        props.put(<span class="string">"auto.commit.interval.ms"</span>, <span class="string">"1000"</span>);</div><div class="line">        props.put(<span class="string">"key.deserializer"</span>, <span class="string">"org.apache.kafka.common.serialization.StringDeserializer"</span>);</div><div class="line">        props.put(<span class="string">"value.deserializer"</span>, <span class="string">"org.apache.kafka.common.serialization.StringDeserializer"</span>);</div><div class="line">        KafkaConsumer&lt;String, String&gt; consumer = <span class="keyword">new</span> KafkaConsumer&lt;&gt;(props);</div><div class="line">        consumer.subscribe(Arrays.asList(<span class="string">"foo"</span>, <span class="string">"bar"</span>));</div><div class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</div><div class="line">         ConsumerRecords&lt;String, String&gt; records = consumer.poll(<span class="number">100</span>);</div><div class="line">         <span class="keyword">for</span> (ConsumerRecord&lt;String, String&gt; record : records)</div><div class="line">             System.out.printf(<span class="string">"offset = %d, key = %s, value = %s%n"</span>, record.offset(), record.key(), record.value());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/kafka/" rel="tag"># kafka</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/24/zookeeper快速上手/" rel="next" title="zookeeper快速上手">
+                <i class="fa fa-chevron-left"></i> zookeeper快速上手
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="黄文启" />
+          <p class="site-author-name" itemprop="name">黄文启</p>
+           
+              <p class="site-description motion-element" itemprop="description">有花堪折直须折 莫待无花空折枝</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/atqi" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/atqigg" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kafka的集群架构和原理"><span class="nav-number">2.</span> <span class="nav-text">kafka的集群架构和原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Topics-and-Logs"><span class="nav-number">2.1.</span> <span class="nav-text">Topics and Logs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distribution"><span class="nav-number">2.2.</span> <span class="nav-text">Distribution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Producers"><span class="nav-number">2.3.</span> <span class="nav-text">Producers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Consumers"><span class="nav-number">2.4.</span> <span class="nav-text">Consumers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka-as-a-Messaging-System"><span class="nav-number">2.5.</span> <span class="nav-text">Kafka as a Messaging System</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka-as-a-Storage-System"><span class="nav-number">2.6.</span> <span class="nav-text">Kafka as a Storage System</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件解释"><span class="nav-number">3.</span> <span class="nav-text">配置文件解释</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#server-properties"><span class="nav-number">3.1.</span> <span class="nav-text">server.properties</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置文件"><span class="nav-number">3.1.1.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#坑"><span class="nav-number">3.1.2.</span> <span class="nav-text">坑</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#producer-properties"><span class="nav-number">3.2.</span> <span class="nav-text">producer.properties</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#consumer-properties"><span class="nav-number">3.3.</span> <span class="nav-text">consumer.properties</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用脚本命令"><span class="nav-number">4.</span> <span class="nav-text">常用脚本命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java-API"><span class="nav-number">5.</span> <span class="nav-text">java API</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">黄文启</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'dis-13';
+      var disqus_identifier = '2017/06/11/kafka配置及实践/';
+
+      var disqus_title = "kafka配置及实践";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>
