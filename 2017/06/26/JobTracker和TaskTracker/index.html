@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://atqi.github.io/2017/06/26/JobTracker和TaskTracker/index.html">
 <meta property="og:site_name" content="Wyatt's blog">
 <meta property="og:description" content="前言(转载)JobTracker和TaskTracker详解Hadoop MapReduce采用Master/Slave结构。Master: 整个集群的唯一的全局管理者，功能包括：作业管理、状态监控和任务调度等，即MapReduce中的JobTracker。Slave: 负责任务的执行和任务状态的回报，即MapReduce中的TaskTracker。">
-<meta property="og:updated_time" content="2017-06-25T16:14:50.507Z">
+<meta property="og:updated_time" content="2017-06-25T16:18:05.171Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JobTracker和TaskTracker">
 <meta name="twitter:description" content="前言(转载)JobTracker和TaskTracker详解Hadoop MapReduce采用Master/Slave结构。Master: 整个集群的唯一的全局管理者，功能包括：作业管理、状态监控和任务调度等，即MapReduce中的JobTracker。Slave: 负责任务的执行和任务状态的回报，即MapReduce中的TaskTracker。">
@@ -423,11 +423,12 @@
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a href="http://blog.csdn.net/u012599988/article/details/46860307" target="_blank" rel="external">(转载)JobTracker和TaskTracker详解</a><br>Hadoop MapReduce采用Master/Slave结构。<br>Master: 整个集群的唯一的全局管理者，功能包括：作业管理、状态监控和任务调度等，即MapReduce中的JobTracker。<br>Slave: 负责任务的执行和任务状态的回报，即MapReduce中的TaskTracker。<br><a id="more"></a></p>
 <h2 id="JobTracker"><a href="#JobTracker" class="headerlink" title="JobTracker"></a>JobTracker</h2><p>JobTracker是一个后台服务进程，启动之后，会一直监听并接收来自各个TaskTracker发送的心跳信息，包括资源使用情况和任务运行情况等信息。</p>
-<h3 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能:"></a>主要功能:</h3><ol>
-<li>作业控制：在hadoop中每个应用程序被表示成一个作业，每个作业又被分成多个任务，JobTracker的作业控制模块则负责作业的分解和状态监控。最重要的是状态监控：主要包括TaskTracker状态监控、作业状态监控和任务状态监控。主要作用：容错和为任务调度提供决策依据。</li>
-<li>资源管理。</li>
-</ol>
-<h2 id="TaskTracker"><a href="#TaskTracker" class="headerlink" title="TaskTracker"></a>TaskTracker</h2><ul>
+<ul>
+<li>主要功能<ul>
+<li>作业控制：在hadoop中每个应用程序被表示成一个作业，每个作业又被分成多个任务，JobTracker的作业控制模块则负责作业的分解和状态监控。最重要的是状态监控：主要包括TaskTracker状态监控、作业状态监控和任务状态监控。主要作用：容错和为任务调度提供决策依据</li>
+<li>资源管理<h2 id="TaskTracker"><a href="#TaskTracker" class="headerlink" title="TaskTracker"></a>TaskTracker</h2></li>
+</ul>
+</li>
 <li>TaskTracker是JobTracker和Task之间的桥梁<ul>
 <li>TaskTracker从JobTracker接收并执行各种命令：运行任务、提交任务、杀死任务等</li>
 <li>将本地节点上各个任务的状态通过心跳周期性汇报给JobTracker</li>
@@ -445,11 +446,13 @@
 <li>提交任务(CommitTaskAction)</li>
 <li>杀死任务(KillTaskAction)</li>
 <li>杀死作业(KillJobAction)</li>
-<li>重新初始化(TaskTrackerReinitAction)<h2 id="MapReduce流程"><a href="#MapReduce流程" class="headerlink" title="MapReduce流程"></a>MapReduce流程</h2></li>
+<li>重新初始化(TaskTrackerReinitAction)</li>
 </ul>
 </li>
 </ul>
 </li>
+</ul>
+<h2 id="MapReduce流程"><a href="#MapReduce流程" class="headerlink" title="MapReduce流程"></a>MapReduce流程</h2><ul>
 <li>JobClient会在用户端通过JobClient类将应用已经配置参数打包成jar文件存储到hdfs，并把路径提交到Jobtracker,然后由JobTracker创建每一个Task（即MapTask和ReduceTask），并将它们分发到各个TaskTracker服务中去执行</li>
 <li>JobTracker是一个master服务，软件启动之后JobTracker接收Job，负责调度Job的每一个子任务task运行于TaskTracker上，并监控它们，如果发现有失败的task就重新运行它。一般情况应该把JobTracker部署在单独的机器上</li>
 <li>TaskTracker是运行在多个节点上的slaver服务。TaskTracker主动与JobTracker通信，接收作业，并负责直接执行每一个任务。TaskTracker都需要运行在HDFS的DataNode上</li>
@@ -654,7 +657,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JobTracker"><span class="nav-number">2.</span> <span class="nav-text">JobTracker</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主要功能"><span class="nav-number">2.1.</span> <span class="nav-text">主要功能:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TaskTracker"><span class="nav-number">3.</span> <span class="nav-text">TaskTracker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MapReduce流程"><span class="nav-number">4.</span> <span class="nav-text">MapReduce流程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JobTracker"><span class="nav-number">2.</span> <span class="nav-text">JobTracker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TaskTracker"><span class="nav-number">3.</span> <span class="nav-text">TaskTracker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MapReduce流程"><span class="nav-number">4.</span> <span class="nav-text">MapReduce流程</span></a></li></ol></div>
             
 
           </div>
