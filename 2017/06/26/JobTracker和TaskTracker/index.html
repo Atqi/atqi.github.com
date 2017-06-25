@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://atqi.github.io/2017/06/26/JobTracker和TaskTracker/index.html">
 <meta property="og:site_name" content="Wyatt's blog">
 <meta property="og:description" content="前言(转载)JobTracker和TaskTracker详解Hadoop MapReduce采用Master/Slave结构。Master: 整个集群的唯一的全局管理者，功能包括：作业管理、状态监控和任务调度等，即MapReduce中的JobTracker。Slave: 负责任务的执行和任务状态的回报，即MapReduce中的TaskTracker。">
-<meta property="og:updated_time" content="2017-06-25T16:18:05.171Z">
+<meta property="og:updated_time" content="2017-06-25T16:19:30.491Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JobTracker和TaskTracker">
 <meta name="twitter:description" content="前言(转载)JobTracker和TaskTracker详解Hadoop MapReduce采用Master/Slave结构。Master: 整个集群的唯一的全局管理者，功能包括：作业管理、状态监控和任务调度等，即MapReduce中的JobTracker。Slave: 负责任务的执行和任务状态的回报，即MapReduce中的TaskTracker。">
@@ -426,9 +426,11 @@
 <ul>
 <li>主要功能<ul>
 <li>作业控制：在hadoop中每个应用程序被表示成一个作业，每个作业又被分成多个任务，JobTracker的作业控制模块则负责作业的分解和状态监控。最重要的是状态监控：主要包括TaskTracker状态监控、作业状态监控和任务状态监控。主要作用：容错和为任务调度提供决策依据</li>
-<li>资源管理<h2 id="TaskTracker"><a href="#TaskTracker" class="headerlink" title="TaskTracker"></a>TaskTracker</h2></li>
+<li>资源管理</li>
 </ul>
 </li>
+</ul>
+<h2 id="TaskTracker"><a href="#TaskTracker" class="headerlink" title="TaskTracker"></a>TaskTracker</h2><ul>
 <li>TaskTracker是JobTracker和Task之间的桥梁<ul>
 <li>TaskTracker从JobTracker接收并执行各种命令：运行任务、提交任务、杀死任务等</li>
 <li>将本地节点上各个任务的状态通过心跳周期性汇报给JobTracker</li>
