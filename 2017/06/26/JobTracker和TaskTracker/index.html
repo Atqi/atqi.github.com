@@ -70,7 +70,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="算法," />
+  <meta name="keywords" content="mapreduce," />
 
 
 
@@ -86,16 +86,16 @@
 
 
 
-<meta name="description" content="前言算法学到一定程度之后，就可以总结出来一套模板了。模板虽好，可没有经过千锤百炼是不可以用得得心应手，信手拈来的。">
+<meta name="description" content="前言(转载)JobTracker和TaskTracker详解Hadoop MapReduce采用Master/Slave结构。Master: 整个集群的唯一的全局管理者，功能包括：作业管理、状态监控和任务调度等，即MapReduce中的JobTracker。Slave: 负责任务的执行和任务状态的回报，即MapReduce中的TaskTracker。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="算法模板———返璞归真">
-<meta property="og:url" content="http://atqi.github.io/2017/03/12/算法模板———返璞归真/index.html">
+<meta property="og:title" content="JobTracker和TaskTracker">
+<meta property="og:url" content="http://atqi.github.io/2017/06/26/JobTracker和TaskTracker/index.html">
 <meta property="og:site_name" content="Wyatt's blog">
-<meta property="og:description" content="前言算法学到一定程度之后，就可以总结出来一套模板了。模板虽好，可没有经过千锤百炼是不可以用得得心应手，信手拈来的。">
-<meta property="og:updated_time" content="2017-03-17T02:52:43.453Z">
+<meta property="og:description" content="前言(转载)JobTracker和TaskTracker详解Hadoop MapReduce采用Master/Slave结构。Master: 整个集群的唯一的全局管理者，功能包括：作业管理、状态监控和任务调度等，即MapReduce中的JobTracker。Slave: 负责任务的执行和任务状态的回报，即MapReduce中的TaskTracker。">
+<meta property="og:updated_time" content="2017-06-25T16:14:50.507Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="算法模板———返璞归真">
-<meta name="twitter:description" content="前言算法学到一定程度之后，就可以总结出来一套模板了。模板虽好，可没有经过千锤百炼是不可以用得得心应手，信手拈来的。">
+<meta name="twitter:title" content="JobTracker和TaskTracker">
+<meta name="twitter:description" content="前言(转载)JobTracker和TaskTracker详解Hadoop MapReduce采用Master/Slave结构。Master: 整个集群的唯一的全局管理者，功能包括：作业管理、状态监控和任务调度等，即MapReduce中的JobTracker。Slave: 负责任务的执行和任务状态的回报，即MapReduce中的TaskTracker。">
 
 
 
@@ -123,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://atqi.github.io/2017/03/12/算法模板———返璞归真/"/>
+  <link rel="canonical" href="http://atqi.github.io/2017/06/26/JobTracker和TaskTracker/"/>
 
 
 
 
 
-  <title> 算法模板———返璞归真 | Wyatt's blog </title>
+  <title> JobTracker和TaskTracker | Wyatt's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -306,7 +306,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://atqi.github.io/2017/03/12/算法模板———返璞归真/">
+    <link itemprop="mainEntityOfPage" href="http://atqi.github.io/2017/06/26/JobTracker和TaskTracker/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="黄文启">
@@ -327,7 +327,7 @@
             
             
               
-                算法模板———返璞归真
+                JobTracker和TaskTracker
               
             
           </h1>
@@ -342,8 +342,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T00:09:45+08:00">
-                2017-03-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-26T00:12:46+08:00">
+                2017-06-26
               </time>
             
 
@@ -365,8 +365,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/学习/" itemprop="url" rel="index">
-                    <span itemprop="name">学习</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
                   </a>
                 </span>
 
@@ -376,8 +376,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/学习/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
+                  <a href="/categories/bigdata/hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">hadoop</span>
                   </a>
                 </span>
 
@@ -394,8 +394,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/12/算法模板———返璞归真/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/03/12/算法模板———返璞归真/" itemprop="commentCount"></span>
+                <a href="/2017/06/26/JobTracker和TaskTracker/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/26/JobTracker和TaskTracker/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -421,19 +421,39 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>算法学到一定程度之后，就可以总结出来一套模板了。模板虽好，可没有经过千锤百炼是不可以用得得心应手，信手拈来的。</p>
-<a id="more"></a>
-<h2 id="二分法"><a href="#二分法" class="headerlink" title="二分法"></a>二分法</h2><p>用二分法来进行查找，代码模式基本没有什么变化：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">BinarySearch</span><span class="params">(<span class="keyword">int</span>[] nums, target)</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="keyword">int</span> start = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> end = nums.length - <span class="number">1</span>;</div><div class="line">    </div><div class="line">    <span class="keyword">while</span> (start + <span class="number">1</span> &lt; end) &#123;</div><div class="line">        </div><div class="line">        <span class="keyword">int</span> mid = start + (end - start) / <span class="number">2</span>;</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> (nums[mid] &gt;= target) &#123;</div><div class="line">            end = mid;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            start = mid + <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (nums[start] == target) &#123;</div><div class="line">        <span class="keyword">return</span> start;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (nums[end] == target) &#123;</div><div class="line">        <span class="keyword">return</span> end;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这个模板适用什么问题呢？基本排序数组的二分查找都可以应用。<br>比如</p>
-<ul>
-<li>求排序数组中target第一次(最后)出现的位置</li>
-<li>求数组中的峰值</li>
-<li>求数组最接近target的值</li>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a href="http://blog.csdn.net/u012599988/article/details/46860307" target="_blank" rel="external">(转载)JobTracker和TaskTracker详解</a><br>Hadoop MapReduce采用Master/Slave结构。<br>Master: 整个集群的唯一的全局管理者，功能包括：作业管理、状态监控和任务调度等，即MapReduce中的JobTracker。<br>Slave: 负责任务的执行和任务状态的回报，即MapReduce中的TaskTracker。<br><a id="more"></a></p>
+<h2 id="JobTracker"><a href="#JobTracker" class="headerlink" title="JobTracker"></a>JobTracker</h2><p>JobTracker是一个后台服务进程，启动之后，会一直监听并接收来自各个TaskTracker发送的心跳信息，包括资源使用情况和任务运行情况等信息。</p>
+<h3 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能:"></a>主要功能:</h3><ol>
+<li>作业控制：在hadoop中每个应用程序被表示成一个作业，每个作业又被分成多个任务，JobTracker的作业控制模块则负责作业的分解和状态监控。最重要的是状态监控：主要包括TaskTracker状态监控、作业状态监控和任务状态监控。主要作用：容错和为任务调度提供决策依据。</li>
+<li>资源管理。</li>
+</ol>
+<h2 id="TaskTracker"><a href="#TaskTracker" class="headerlink" title="TaskTracker"></a>TaskTracker</h2><ul>
+<li>TaskTracker是JobTracker和Task之间的桥梁<ul>
+<li>TaskTracker从JobTracker接收并执行各种命令：运行任务、提交任务、杀死任务等</li>
+<li>将本地节点上各个任务的状态通过心跳周期性汇报给JobTracker</li>
+<li>TaskTracker与JobTracker和Task之间采用了RPC协议进行通信</li>
 </ul>
-<p>这个模板是基于查找target出现的第一个位置构建的,其他的问题要对模板进行相应的修改.</p>
-<p>怎么修改呢? 先让我对这个模板的几个地方解释一下.</p>
-<p>首先是为什么是循环结束的条件是 start + 1 &lt; end 呢?</p>
+</li>
+<li>TaskTracker的功能<ul>
+<li>汇报心跳: Tracker周期性将所有节点上各种信息通过心跳机制汇报给JobTracker<br>这些信息包括两部分：<ul>
+<li>机器级别信息：节点健康情况、资源使用情况等</li>
+<li>任务级别信息：任务执行进度、任务运行状态等</li>
+</ul>
+</li>
+<li>执行命令: JobTracker会给TaskTracker下达各种命令<br>主要包括: <ul>
+<li>启动任务(LaunchTaskAction)</li>
+<li>提交任务(CommitTaskAction)</li>
+<li>杀死任务(KillTaskAction)</li>
+<li>杀死作业(KillJobAction)</li>
+<li>重新初始化(TaskTrackerReinitAction)<h2 id="MapReduce流程"><a href="#MapReduce流程" class="headerlink" title="MapReduce流程"></a>MapReduce流程</h2></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>JobClient会在用户端通过JobClient类将应用已经配置参数打包成jar文件存储到hdfs，并把路径提交到Jobtracker,然后由JobTracker创建每一个Task（即MapTask和ReduceTask），并将它们分发到各个TaskTracker服务中去执行</li>
+<li>JobTracker是一个master服务，软件启动之后JobTracker接收Job，负责调度Job的每一个子任务task运行于TaskTracker上，并监控它们，如果发现有失败的task就重新运行它。一般情况应该把JobTracker部署在单独的机器上</li>
+<li>TaskTracker是运行在多个节点上的slaver服务。TaskTracker主动与JobTracker通信，接收作业，并负责直接执行每一个任务。TaskTracker都需要运行在HDFS的DataNode上</li>
+</ul>
 
       
     </div>
@@ -457,7 +477,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/算法/" rel="tag"># 算法</a>
+            <a href="/tags/mapreduce/" rel="tag"># mapreduce</a>
           
         </div>
       
@@ -470,8 +490,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/11/JDBC-简述/" rel="next" title="JDBC 简述">
-                <i class="fa fa-chevron-left"></i> JDBC 简述
+              <a href="/2017/06/11/kafka配置及实践/" rel="next" title="kafka配置及实践">
+                <i class="fa fa-chevron-left"></i> kafka配置及实践
               </a>
             
           </div>
@@ -479,10 +499,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/17/reduce迭代器/" rel="prev" title="reduce迭代器">
-                reduce迭代器 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -638,7 +654,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二分法"><span class="nav-number">2.</span> <span class="nav-text">二分法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JobTracker"><span class="nav-number">2.</span> <span class="nav-text">JobTracker</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主要功能"><span class="nav-number">2.1.</span> <span class="nav-text">主要功能:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TaskTracker"><span class="nav-number">3.</span> <span class="nav-text">TaskTracker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MapReduce流程"><span class="nav-number">4.</span> <span class="nav-text">MapReduce流程</span></a></li></ol></div>
             
 
           </div>
@@ -776,9 +792,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'dis-13';
-      var disqus_identifier = '2017/03/12/算法模板———返璞归真/';
+      var disqus_identifier = '2017/06/26/JobTracker和TaskTracker/';
 
-      var disqus_title = "算法模板———返璞归真";
+      var disqus_title = "JobTracker和TaskTracker";
 
 
       function run_disqus_script(disqus_script) {

@@ -70,7 +70,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="MapReduce," />
+  <meta name="keywords" content="mapreduce," />
 
 
 
@@ -86,18 +86,18 @@
 
 
 
-<meta name="description" content="MapReduce应用开发MapReduce编程遵循一个特定的流程。首先写map 函数和reduce函数,最好使用单元测试来确保函数的运行符合预期。然后,写一个驱动程序来运行作业,看这个驱动程序是否可以正确运行,可以先从本地IDE中用一个小的數掘集采送行它。如果驱动程序不能正确运行,就用本地 IDE 調試器来找出问题根源。根据这些调试信息,可以通过扩展单元测试来覆盖这一测试用例,从而改进mappe">
+<meta name="description" content="前言MapReduce编程遵循一个特定的流程。首先写map 函数和reduce函数,最好使用单元测试来确保函数的运行符合预期。然后,写一个驱动程序来运行作业,看这个驱动程序是否可以正确运行,可以先从本地IDE中用一个小的數掘集采送行它。如果驱动程序不能正确运行,就用本地 IDE 調試器来找出问题根源。根据这些调试信息,可以通过扩展单元测试来覆盖这一测试用例,从而改进mapper或reducer,使">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MapReduce应用开发">
 <meta property="og:url" content="http://atqi.github.io/2017/03/22/MapReduce应用开发/index.html">
 <meta property="og:site_name" content="Wyatt's blog">
-<meta property="og:description" content="MapReduce应用开发MapReduce编程遵循一个特定的流程。首先写map 函数和reduce函数,最好使用单元测试来确保函数的运行符合预期。然后,写一个驱动程序来运行作业,看这个驱动程序是否可以正确运行,可以先从本地IDE中用一个小的數掘集采送行它。如果驱动程序不能正确运行,就用本地 IDE 調試器来找出问题根源。根据这些调试信息,可以通过扩展单元测试来覆盖这一测试用例,从而改进mappe">
+<meta property="og:description" content="前言MapReduce编程遵循一个特定的流程。首先写map 函数和reduce函数,最好使用单元测试来确保函数的运行符合预期。然后,写一个驱动程序来运行作业,看这个驱动程序是否可以正确运行,可以先从本地IDE中用一个小的數掘集采送行它。如果驱动程序不能正确运行,就用本地 IDE 調試器来找出问题根源。根据这些调试信息,可以通过扩展单元测试来覆盖这一测试用例,从而改进mapper或reducer,使">
 <meta property="og:image" content="http://atqi.github.io/images/optimizeJob1.png">
 <meta property="og:image" content="http://atqi.github.io/images/optimizeJob2.png">
-<meta property="og:updated_time" content="2017-03-22T15:26:18.572Z">
+<meta property="og:updated_time" content="2017-06-25T14:37:15.300Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MapReduce应用开发">
-<meta name="twitter:description" content="MapReduce应用开发MapReduce编程遵循一个特定的流程。首先写map 函数和reduce函数,最好使用单元测试来确保函数的运行符合预期。然后,写一个驱动程序来运行作业,看这个驱动程序是否可以正确运行,可以先从本地IDE中用一个小的數掘集采送行它。如果驱动程序不能正确运行,就用本地 IDE 調試器来找出问题根源。根据这些调试信息,可以通过扩展单元测试来覆盖这一测试用例,从而改进mappe">
+<meta name="twitter:description" content="前言MapReduce编程遵循一个特定的流程。首先写map 函数和reduce函数,最好使用单元测试来确保函数的运行符合预期。然后,写一个驱动程序来运行作业,看这个驱动程序是否可以正确运行,可以先从本地IDE中用一个小的數掘集采送行它。如果驱动程序不能正确运行,就用本地 IDE 調試器来找出问题根源。根据这些调试信息,可以通过扩展单元测试来覆盖这一测试用例,从而改进mapper或reducer,使">
 <meta name="twitter:image" content="http://atqi.github.io/images/optimizeJob1.png">
 
 
@@ -368,8 +368,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/学习/" itemprop="url" rel="index">
-                    <span itemprop="name">学习</span>
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
                   </a>
                 </span>
 
@@ -379,8 +379,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/学习/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">bigdata</span>
+                  <a href="/categories/bigdata/hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">hadoop</span>
                   </a>
                 </span>
 
@@ -424,7 +424,7 @@
       
 
       
-        <h1 id="MapReduce应用开发"><a href="#MapReduce应用开发" class="headerlink" title="MapReduce应用开发"></a>MapReduce应用开发</h1><p>MapReduce编程遵循一个特定的流程。首先写map 函数和reduce函数,最好使用单元测试来确保函数的运行符合预期。然后,写一个驱动程序来运行作业,看这个驱动程序是否可以正确运行,可以先从本地IDE中用一个小的數掘集采送行它。如果驱动程序不能正确运行,就用本地 IDE 調試器来找出问题根源。根据这些调试信息,可以通过扩展单元测试来覆盖这一测试用例,从而改进mapper或reducer,使其能正确处理类似输入。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>MapReduce编程遵循一个特定的流程。首先写map 函数和reduce函数,最好使用单元测试来确保函数的运行符合预期。然后,写一个驱动程序来运行作业,看这个驱动程序是否可以正确运行,可以先从本地IDE中用一个小的數掘集采送行它。如果驱动程序不能正确运行,就用本地 IDE 調試器来找出问题根源。根据这些调试信息,可以通过扩展单元测试来覆盖这一测试用例,从而改进mapper或reducer,使其能正确处理类似输入。</p>
 <a id="more"></a>
 <h2 id="用于配置的API"><a href="#用于配置的API" class="headerlink" title="用于配置的API"></a>用于配置的API</h2><p>Hadoop 中的组件是通过 Hadoop 自己的配置 API 来配置的。一个Configuration类的实例代表配置属性及其取值的一个集合。</p>
 <h3 id="资源合并"><a href="#资源合并" class="headerlink" title="资源合并"></a>资源合并</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Configuration conf = <span class="keyword">new</span> Configuration();</div><div class="line">conf.addResource(<span class="string">"configuration-1.xml"</span>);</div><div class="line">conf.addResource(<span class="string">"configuration-2.xml"</span>);</div></pre></td></tr></table></figure>
@@ -433,7 +433,7 @@
 <h2 id="配置开发环境"><a href="#配置开发环境" class="headerlink" title="配置开发环境"></a>配置开发环境</h2><p>Maven-POM可说明编译和测试MapReduce程序是需要的一依赖项。要想构建MapReduce作业，只需要有hadoop-core依赖，它包含所有的Hadoop类。单元测试需要使用junit类以及两个辅助库。<br>很多IDE可以直接读Maven POM，因此只需要在包含pom.xml文件的目录中指向这些Maven POM即可。也可以使用Maven 为IDE生成配置文件。</p>
 <h3 id="管理配置"><a href="#管理配置" class="headerlink" title="管理配置"></a>管理配置</h3><p>开发 Hadoop应用时,经常需要在本地运行和集群运行之间进行切换。事实比,可能在几个集群上工作,也可能在本地“伪分布式”集群上测试。应对这些变化的一种方法是使 Hadoop配置文件包含每个集群的连接设置, 并且在运行 Hadoop 应用或工具时指定使用哪个连接设置。</p>
 <h3 id="辅助类GenericOptionsParser，-Tool和ToolRunner"><a href="#辅助类GenericOptionsParser，-Tool和ToolRunner" class="headerlink" title="辅助类GenericOptionsParser， Tool和ToolRunner"></a>辅助类GenericOptionsParser， Tool和ToolRunner</h3><p>为了简化命令行方式运行作业， Hadoop自带了一些辅助类，GenerOptionsParser是一个类，用类解释常用的Hadoop命令行选项。</p>
-<h2 id="用MRUnit来写单元测试"><a href="#用MRUnit来写单元测试" class="headerlink" title="用MRUnit来写单元测试"></a>用MRUnit来写单元测试</h2><h3 id="关于Mapper"><a href="#关于Mapper" class="headerlink" title="关于Mapper"></a>关于Mapper</h3><h3 id="关于reducer"><a href="#关于reducer" class="headerlink" title="关于reducer"></a>关于reducer</h3><h2 id="本地运行测试数据"><a href="#本地运行测试数据" class="headerlink" title="本地运行测试数据"></a>本地运行测试数据</h2><p>现在 mapper 和 reducer 已经能够在受控的输入上进行工作了,下一步是写一个作业驱动程序(job driver),然后在开发机器上使用测试数据运行它。</p>
+<h2 id="本地运行测试数据"><a href="#本地运行测试数据" class="headerlink" title="本地运行测试数据"></a>本地运行测试数据</h2><p>现在 mapper 和 reducer 已经能够在受控的输入上进行工作了,下一步是写一个作业驱动程序(job driver),然后在开发机器上使用测试数据运行它。</p>
 <h3 id="在本地作业运行器上运行作业"><a href="#在本地作业运行器上运行作业" class="headerlink" title="在本地作业运行器上运行作业"></a>在本地作业运行器上运行作业</h3><p>通过Tool接口可以轻松启动写一个MapReduce作业的启动程序。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MaxTemperatureDriver</span> <span class="keyword">extends</span> <span class="title">Configured</span> <span class="keyword">implements</span> <span class="title">Tool</span> </span>&#123;</div><div class="line"><span class="meta">@Override</span> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">run</span> <span class="params">(String)</span> args) <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">if</span> (args.length != <span class="number">2</span>) &#123;</div><div class="line">            System.err.printf[<span class="string">"Usage: %s generic options] &lt;input&gt; &lt; output&gt;\n"</span>,</div><div class="line">                getClass(), getSimpleName());</div><div class="line">            ToolRunner.printGenericCommandUsage(System.err);</div><div class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">        Job job = <span class="keyword">new</span> Job(getConf(), <span class="string">"Max temperature"</span>);</div><div class="line">        job.SetJarByClass(getClass());</div><div class="line"></div><div class="line">        FileInputFormat.addInputPath(job, <span class="keyword">new</span> Path(args[<span class="number">0</span>]));</div><div class="line">        FileOutputFormat.setOutputPath(job, <span class="keyword">new</span> Path(args[<span class="number">1</span>]));</div><div class="line"></div><div class="line">        job.setMapperClass(MaxTemperatureMapper. Class); job. setCombinerClass (Max Temperature Reducer. <span class="class"><span class="keyword">class</span>)</span>;  </div><div class="line">        job.setReducerClass(Max Temperature Reducer. <span class="class"><span class="keyword">class</span>)</span>;</div><div class="line">        job.setOutputKeyClass(Text.class);</div><div class="line">        job.setOutputValueClass(IntWritable.class);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> job.waitForCompletion(<span class="keyword">true</span>) ? <span class="number">0</span> : <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String)</span> args) <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">int</span> exitCode = ToolRunner.run(<span class="keyword">new</span> <span class="function">MaxTemperature <span class="title">Driver</span><span class="params">()</span>, args) </span>;</div><div class="line">        System.exit(exitCode);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="测试驱动程序"><a href="#测试驱动程序" class="headerlink" title="测试驱动程序"></a>测试驱动程序</h3><p>使用本地作业运行器在本地文件系统的测试文件上运行作业<br>使用一个mini集群来运行它</p>
 <h2 id="在集群上运行"><a href="#在集群上运行" class="headerlink" title="在集群上运行"></a>在集群上运行</h2><h3 id="打包作业"><a href="#打包作业" class="headerlink" title="打包作业"></a>打包作业</h3><p>本地作业运行器使用单JVM运行一个作业,只要作业需要的所有类都在类路径(classpath)上,那么作业就可以正常执行。<br>在分布式的环境中,情况稍微复杂一些。开始的时候作业的类必须打包进作业的JAR文件中并发送给集群。<br>Hadoop通过搜索驱动程序的类的路径自动找到作业的JAR文件,该类路径包含了JobConf或Job上的setJarByClass()方法中设置的类.另一种方法,如果你想通过文件路径指定的Jar文件,可以使用setJar()方法.</p>
@@ -459,7 +459,13 @@
 <h3 id="分析任务"><a href="#分析任务" class="headerlink" title="分析任务"></a>分析任务</h3><p>本地作业运行器是一个与集群完全不同的环境,并且数据流模式也也截然不同.如果MapReduce作业是I/O密集型的(很多作业都属于此类),那么优化代码的CPU性能是没有意义的.</p>
 <h4 id="HPROF分析工具"><a href="#HPROF分析工具" class="headerlink" title="HPROF分析工具"></a>HPROF分析工具</h4><h4 id="其他分析工具"><a href="#其他分析工具" class="headerlink" title="其他分析工具"></a>其他分析工具</h4><h2 id="MapReduce的工作流"><a href="#MapReduce的工作流" class="headerlink" title="MapReduce的工作流"></a>MapReduce的工作流</h2><h3 id="将问题分解成MapReduce作业"><a href="#将问题分解成MapReduce作业" class="headerlink" title="将问题分解成MapReduce作业"></a>将问题分解成MapReduce作业</h3><p>Mapper一般执行输入格式解释,投影(选择相关的字段)和过滤(去掉无关记录).<br>可以将这些函数分割到不同的Mapper中,然后使用hadoop中自带的ChainMapper类库将它们连接成一个Mapper.</p>
 <h3 id="关于jobControl"><a href="#关于jobControl" class="headerlink" title="关于jobControl"></a>关于jobControl</h3><p>如何管理作业按顺序执行,有几个方法,其中主要考虑是否有一个线性的作业链或者一个更复杂的作业有向无环图.<br>对于线性链表,最简单的方法是一个接一个的运行作业,等前一个作业运行结束后再运行下一个<br>JobClient.runJob(conf1);<br>JobClient.runJob(conf2);</p>
-<h3 id="关于Apache-Oozie"><a href="#关于Apache-Oozie" class="headerlink" title="关于Apache Oozie"></a>关于Apache Oozie</h3>
+<ol>
+<li>debug</li>
+<li>jobtacker</li>
+<li>web</li>
+<li>Driver conbine 技巧<br>5 。。。</li>
+</ol>
+
       
     </div>
 
@@ -482,7 +488,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/MapReduce/" rel="tag"># MapReduce</a>
+            <a href="/tags/mapreduce/" rel="tag"># mapreduce</a>
           
         </div>
       
@@ -586,7 +592,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -608,7 +614,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -663,7 +669,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MapReduce应用开发"><span class="nav-number">1.</span> <span class="nav-text">MapReduce应用开发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用于配置的API"><span class="nav-number">1.1.</span> <span class="nav-text">用于配置的API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#资源合并"><span class="nav-number">1.1.1.</span> <span class="nav-text">资源合并</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可变的拓展"><span class="nav-number">1.1.2.</span> <span class="nav-text">可变的拓展</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置开发环境"><span class="nav-number">1.2.</span> <span class="nav-text">配置开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#管理配置"><span class="nav-number">1.2.1.</span> <span class="nav-text">管理配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#辅助类GenericOptionsParser，-Tool和ToolRunner"><span class="nav-number">1.2.2.</span> <span class="nav-text">辅助类GenericOptionsParser， Tool和ToolRunner</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用MRUnit来写单元测试"><span class="nav-number">1.3.</span> <span class="nav-text">用MRUnit来写单元测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于Mapper"><span class="nav-number">1.3.1.</span> <span class="nav-text">关于Mapper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于reducer"><span class="nav-number">1.3.2.</span> <span class="nav-text">关于reducer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地运行测试数据"><span class="nav-number">1.4.</span> <span class="nav-text">本地运行测试数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在本地作业运行器上运行作业"><span class="nav-number">1.4.1.</span> <span class="nav-text">在本地作业运行器上运行作业</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试驱动程序"><span class="nav-number">1.4.2.</span> <span class="nav-text">测试驱动程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在集群上运行"><span class="nav-number">1.5.</span> <span class="nav-text">在集群上运行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#打包作业"><span class="nav-number">1.5.1.</span> <span class="nav-text">打包作业</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#客户端的类路径"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">客户端的类路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#任务的类路径"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">任务的类路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#打包依赖"><span class="nav-number">1.5.1.3.</span> <span class="nav-text">打包依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#任务类路径的优先权"><span class="nav-number">1.5.1.4.</span> <span class="nav-text">任务类路径的优先权</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动作业"><span class="nav-number">1.5.2.</span> <span class="nav-text">启动作业</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MapReduce的Web界面"><span class="nav-number">1.5.3.</span> <span class="nav-text">MapReduce的Web界面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#jobtracker页面"><span class="nav-number">1.5.3.1.</span> <span class="nav-text">jobtracker页面</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#作业历史"><span class="nav-number">1.5.3.1.1.</span> <span class="nav-text">作业历史</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#作业页面"><span class="nav-number">1.5.3.2.</span> <span class="nav-text">作业页面</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取结果"><span class="nav-number">1.5.4.</span> <span class="nav-text">获取结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业调试"><span class="nav-number">1.5.5.</span> <span class="nav-text">作业调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hadoop日志"><span class="nav-number">1.5.6.</span> <span class="nav-text">Hadoop日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远程调试"><span class="nav-number">1.5.7.</span> <span class="nav-text">远程调试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作业调优"><span class="nav-number">1.6.</span> <span class="nav-text">作业调优</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分析任务"><span class="nav-number">1.6.1.</span> <span class="nav-text">分析任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HPROF分析工具"><span class="nav-number">1.6.1.1.</span> <span class="nav-text">HPROF分析工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他分析工具"><span class="nav-number">1.6.1.2.</span> <span class="nav-text">其他分析工具</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MapReduce的工作流"><span class="nav-number">1.7.</span> <span class="nav-text">MapReduce的工作流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#将问题分解成MapReduce作业"><span class="nav-number">1.7.1.</span> <span class="nav-text">将问题分解成MapReduce作业</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于jobControl"><span class="nav-number">1.7.2.</span> <span class="nav-text">关于jobControl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于Apache-Oozie"><span class="nav-number">1.7.3.</span> <span class="nav-text">关于Apache Oozie</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用于配置的API"><span class="nav-number">2.</span> <span class="nav-text">用于配置的API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#资源合并"><span class="nav-number">2.1.</span> <span class="nav-text">资源合并</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可变的拓展"><span class="nav-number">2.2.</span> <span class="nav-text">可变的拓展</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置开发环境"><span class="nav-number">3.</span> <span class="nav-text">配置开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#管理配置"><span class="nav-number">3.1.</span> <span class="nav-text">管理配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#辅助类GenericOptionsParser，-Tool和ToolRunner"><span class="nav-number">3.2.</span> <span class="nav-text">辅助类GenericOptionsParser， Tool和ToolRunner</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地运行测试数据"><span class="nav-number">4.</span> <span class="nav-text">本地运行测试数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在本地作业运行器上运行作业"><span class="nav-number">4.1.</span> <span class="nav-text">在本地作业运行器上运行作业</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试驱动程序"><span class="nav-number">4.2.</span> <span class="nav-text">测试驱动程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在集群上运行"><span class="nav-number">5.</span> <span class="nav-text">在集群上运行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#打包作业"><span class="nav-number">5.1.</span> <span class="nav-text">打包作业</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#客户端的类路径"><span class="nav-number">5.1.1.</span> <span class="nav-text">客户端的类路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#任务的类路径"><span class="nav-number">5.1.2.</span> <span class="nav-text">任务的类路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#打包依赖"><span class="nav-number">5.1.3.</span> <span class="nav-text">打包依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#任务类路径的优先权"><span class="nav-number">5.1.4.</span> <span class="nav-text">任务类路径的优先权</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动作业"><span class="nav-number">5.2.</span> <span class="nav-text">启动作业</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MapReduce的Web界面"><span class="nav-number">5.3.</span> <span class="nav-text">MapReduce的Web界面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#jobtracker页面"><span class="nav-number">5.3.1.</span> <span class="nav-text">jobtracker页面</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#作业历史"><span class="nav-number">5.3.1.1.</span> <span class="nav-text">作业历史</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#作业页面"><span class="nav-number">5.3.2.</span> <span class="nav-text">作业页面</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取结果"><span class="nav-number">5.4.</span> <span class="nav-text">获取结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业调试"><span class="nav-number">5.5.</span> <span class="nav-text">作业调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hadoop日志"><span class="nav-number">5.6.</span> <span class="nav-text">Hadoop日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远程调试"><span class="nav-number">5.7.</span> <span class="nav-text">远程调试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作业调优"><span class="nav-number">6.</span> <span class="nav-text">作业调优</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分析任务"><span class="nav-number">6.1.</span> <span class="nav-text">分析任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HPROF分析工具"><span class="nav-number">6.1.1.</span> <span class="nav-text">HPROF分析工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他分析工具"><span class="nav-number">6.1.2.</span> <span class="nav-text">其他分析工具</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MapReduce的工作流"><span class="nav-number">7.</span> <span class="nav-text">MapReduce的工作流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#将问题分解成MapReduce作业"><span class="nav-number">7.1.</span> <span class="nav-text">将问题分解成MapReduce作业</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于jobControl"><span class="nav-number">7.2.</span> <span class="nav-text">关于jobControl</span></a></li></ol></li></ol></div>
             
 
           </div>
