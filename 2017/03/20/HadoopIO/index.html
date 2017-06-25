@@ -1,0 +1,885 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="hadoop输入输出," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言Hadoop I/O 操作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HadoopIO">
+<meta property="og:url" content="http://atqi.github.io/2017/03/20/HadoopIO/index.html">
+<meta property="og:site_name" content="Wyatt's blog">
+<meta property="og:description" content="前言Hadoop I/O 操作">
+<meta property="og:image" content="http://atqi.github.io/images/writableClass.png">
+<meta property="og:image" content="http://atqi.github.io/images/Typewritable.png">
+<meta property="og:updated_time" content="2017-06-25T06:59:41.607Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HadoopIO">
+<meta name="twitter:description" content="前言Hadoop I/O 操作">
+<meta name="twitter:image" content="http://atqi.github.io/images/writableClass.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'P70I32CZZY',
+      apiKey: 'ca830abc2a5f90e6899f2fcb15b01569',
+      indexName: 'blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"搜索文章","hits_empty":"没有找到结果: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://atqi.github.io/2017/03/20/HadoopIO/"/>
+
+
+
+
+
+  <title> HadoopIO | Wyatt's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b7ee5c024043c8ecd0e33f636ce4921d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wyatt's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://atqi.github.io/2017/03/20/HadoopIO/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="黄文启">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wyatt's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                HadoopIO
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-20T11:14:45+08:00">
+                2017-03-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/" itemprop="url" rel="index">
+                    <span itemprop="name">bigdata</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bigdata/hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/20/HadoopIO/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/03/20/HadoopIO/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Hadoop I/O 操作</p>
+<a id="more"></a>
+<h1 id="Hadoop-的-I-O-操作"><a href="#Hadoop-的-I-O-操作" class="headerlink" title="Hadoop 的 I/O 操作"></a>Hadoop 的 I/O 操作</h1><h2 id="数据完整性"><a href="#数据完整性" class="headerlink" title="数据完整性"></a>数据完整性</h2><p>在数据进入系统时计算校验和,并在数据通过一个不可靠通道时再次校验和,这样就能发现数据是否损坏.<br>常用的错误检测码是 CRC-32(循环冗余校验),任何大小的数据输入均计算得到一个32为的整数校验和.<br>datanode在收到客户端的数据或者其他datanode的数据时存储该数据和校验和.客户端将数据以及校验和发送到一系列datanode组成的管线,管线中的最后一个datanode负责验证校验和.如果有错,客户端会收到ChecksumException异常.<br>客户端从datanode中读取数据时,也会验证校验和.每个datanode均持久保持一个用于验证的校验和日志.当有客户端验证成功时,日志就会更新.datanode中也有DataBlockScanner定期验证这个datanode上的数据块.</p>
+<h3 id="LocalFileSystem"><a href="#LocalFileSystem" class="headerlink" title="LocalFileSystem"></a>LocalFileSystem</h3><p>文件块的大小作为元数据存储在.crc文件中.<br>校验和的代价是相当低的.</p>
+<h3 id="ChecksumFileSystem"><a href="#ChecksumFileSystem" class="headerlink" title="ChecksumFileSystem"></a>ChecksumFileSystem</h3><p>LocalFileSystem 通过 ChecksumFileSystem 来完成任务,有了这个类,向其他文件系统(无校验和系统)加入校验和就非常简单,因为ChecksumFileSystem 类继承自FileSystem类.</p>
+<h2 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h2><ol>
+<li>通过CompressionCodec对数据进行压缩和解压缩</li>
+<li><p>通过compressionCodecFactory推断出CompressionCode<br>在读取一个压缩文件时,通常可以通过文件拓展名推断需要使用哪一个codec.<br>通过使用getCodec()的方法,CompressionCodeFactory提供一种可以将文件拓展名映射到一个CompressionCodec的方法.</p>
+</li>
+<li><p>为了性能,最好使用”原生”(native)类库来实现压缩和解压缩.<br>默认情况下,Hadoop 会根据自身运行的平台搜索原生代码库,如果找到相应的代码库就会自动加载</p>
+</li>
+<li><p>CodecPool</p>
+</li>
+</ol>
+<p>如果使用的是原生代码库并且需要在应用中执行大量的压缩和解压缩操作, 可以考虑使用CodecPool, 它支持反复使用压缩和解压缩,已分摊创建这些对象的开销.</p>
+<h3 id="压缩和输入分片"><a href="#压缩和输入分片" class="headerlink" title="压缩和输入分片"></a>压缩和输入分片</h3><p>压缩格式支持切分(splitting)才可以被MapReduce处理.压缩格式必须支持数据读取和数据流同步.</p>
+<p>###<br>要想压缩MapReduce作业的输出,应在作业配置过程中进行相应的设置.</p>
+<h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><p>序列化(serialization) 在分布式数据处理的两大领域之间经常出现:进程间通信和永久存储.<br>在Hadoop中, 系统中的多个节点上的进程间通信是通过”远程过程调用”(remote procedure call, RPC)实现的.RPC协议将消息序列化成二进制流后发送到远程节点,远程节点接着将二进制流反序列化成为原始消息.<br>通常, RPC序列化格式如下:</p>
+<ol>
+<li>紧凑(充分利用带宽)</li>
+<li>快速(最基本的)</li>
+<li>可拓展(引进相应的协议)</li>
+<li>支持互操作(特定的格式满足不同语言)<br>因为序列化的数据并不需要永久储存,它们存活时间不到一秒钟.因此,对数据永久存储而言,RPC序列化格式的4大理想属性非常重要.</li>
+<li>储存格式比较紧凑(今儿高效使用存储空间)</li>
+<li>快速(以读/写数据的额外开销比较小)</li>
+<li>可拓展(以可以透明地读取老格式的数据)</li>
+<li>互操作(可以使用不同的语言读/写永久存储的数据)</li>
+</ol>
+<p>Hadoop 使用的是自己的序列化格式 writable, 它绝对紧凑,速度快,但是不太容易使用java以外的语言进行拓展.因为Writable是Hadoop的核心(大多数MapReduce程序都会为键和值使用它).</p>
+<h3 id="Writable-接口"><a href="#Writable-接口" class="headerlink" title="Writable 接口"></a>Writable 接口</h3><p>Writable 接口定义了两个方法: 一个将其状态写到DataOutput二进制流,另一个从DataInput二进制流读取状态:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.apache.hadoop.io</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.DataOutput;</div><div class="line"><span class="keyword">import</span> java.io.DataInput;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Writable</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">write</span><span class="params">(DataOutput out)</span> <span class="keyword">throws</span> IOException</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">readFields</span><span class="params">(DataInput in)</span> <span class="keyword">throws</span> IOException</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用IntWritable来封装java int 类型.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">IntWritable writable = <span class="keyword">new</span> IntWritable();</div><div class="line">Writable.set(<span class="number">163</span>);</div></pre></td></tr></table></figure></p>
+<p>WritableComparable 接口和 comparator<br>IntWritable 实现原始的WritableComparable 接口,该接口继自Writable和java.lang.Comparable接口.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.apache.hadoop.io;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">WritableComparable</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Writable</span>, <span class="title">Comparable</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>对MapReduce来说,类型比较重要,因为中间有个基于键的排序阶段.Hadoop 提供的一个优化接口是继承自Java Comparator 的 RawComparator接口.</p>
+<p>WritableComparator是对继承自WritableComparable类的Rawcomparator类的一个通用实现.它提供两个功能.第一,它提供对原始compare()方法的一个默认实现,该方法能够反序列化将在流中进行比较的对象,并调用对象的compare()方法.第二,他充当的是RawComparator实例的工厂(已注册Writable的实现).例如,为了获得IntWritable的comparator,我们直接如下调用:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">RawComparator&lt;IntWritable&gt; comparator = WritableComparator.get(IntWritable.class);</div></pre></td></tr></table></figure></p>
+<p>这个comparator可以用于比较两个IntWritable对象或者两个序列化对象.</p>
+<h3 id="Writable类"><a href="#Writable类" class="headerlink" title="Writable类"></a>Writable类</h3><p>Hadoop 自带的org.apache.hadoop.io包中有广泛的Writable类可选.</p>
+<p><img src="/images/writableClass.png" alt=""></p>
+<h4 id="java基本类型的Writable封装器"><a href="#java基本类型的Writable封装器" class="headerlink" title="java基本类型的Writable封装器"></a>java基本类型的Writable封装器</h4><p>Writable类对java基本类型提供封装,char除外(可以存储在IntWritable中).所有的封装包含get()和set()两个方法用于读取或储存封装的值.</p>
+<p><img src="/images/Typewritable.png" alt=""></p>
+<p>对整数进行编码时,定长格式非常适合对整个值域空间中分布非常均匀的数值进行编码,如精心设计的哈希函数.大多数数值变量的分布都不均匀,而且变长格式一般更加节省空间.变长编码的另一个优点是可以在VIntWritable 和 VLongWritable转换,因为他们的编码实际上是一致的.所以选择变长格式之后,便有增长的空间,不必一开始就用8字节的long表示.</p>
+<h4 id="Text类型"><a href="#Text类型" class="headerlink" title="Text类型"></a>Text类型</h4><p>Text 是针对UTF-8序列的Writable类.Text替代了UTF8类,但并不是一个很好的替代,一者因为不支持对字节数超过32767的字符进行编码,二者因为它使用的是Java的UTF-8修订版.</p>
+<p>Text类使用整型(变长编码)来储存字符串所需的字节数,因此最大值为2GB.<br>由于着重使用标准的UTF-8编码,因此Text类和java String 类之间存在一定的差别.<br>对于Text类的索引是根据编码后字节序列中的位置是实现的(String 是根据char序列),并非字符串中的Unicode字符,也不是java char中的编码单元.<br>charAt()返回的是表示编码位置的整数.getBytes()方法返回的字节数组可能比getLength()函数返回的长度更长.</p>
+<p>可变性 与String相比,Text的另一个区别在于它是可变的(与所有Hadoop的Writable接口实现类似, NullWritable除外, 它是单例对象).可以通过调用其中一个set()方法来重用Text实例.</p>
+<h4 id="BytesWritable"><a href="#BytesWritable" class="headerlink" title="BytesWritable"></a>BytesWritable</h4><p>BytesWritable 是对二进制数据数组的封装.它的序列化格式为一个指定所含数据字节的整数域(4字节),后跟数据内容本身.可通过getLenth()方法确定所存数据大小.</p>
+<h4 id="NullWritable"><a href="#NullWritable" class="headerlink" title="NullWritable"></a>NullWritable</h4><p>NullWritable是Writable的特殊类型,它的序列化长度为0.它并不从数据流中读取数据,也不写入数据.它充当占位符.如果不需要使用键或值的序列化地址,就可以将键或值声明为NullWritable, 结果是高效地存储常量空值.如果希望存储一系列数值,与键/值对相对,NullWritable也可以用作在SequenceFile中的键.它是一个不可变的单例类型,同过调用NullWritable.get()方法可以获取这个实例.</p>
+<h4 id="ObjectWritable-和GenericWritable"><a href="#ObjectWritable-和GenericWritable" class="headerlink" title="ObjectWritable 和GenericWritable"></a>ObjectWritable 和GenericWritable</h4><p>ObjectWritable 是对Java基本类型(String, enum, Writable, null 或这些类型组成的数组)的一个通用封装.它在hadoop RPC中用于对方法的参数和返回类型进行封装和解封装.</p>
+<h3 id="Writable集合类"><a href="#Writable集合类" class="headerlink" title="Writable集合类"></a>Writable集合类</h3><p>org.apache.hadoop.io软件包中一共有6个Writable集合类:ArrayWritable, ArrayPrimitiveWritable, TwoDArrayWritable, MapWritable, SortedMapWritable 和 EnumMapWritable</p>
+<h4 id="实现定制的Writable集合"><a href="#实现定制的Writable集合" class="headerlink" title="实现定制的Writable集合"></a>实现定制的Writable集合</h4><ol>
+<li>为速度实现一个RawComparator</li>
+<li>定制的comparator</li>
+</ol>
+<h2 id="序列化框架"><a href="#序列化框架" class="headerlink" title="序列化框架"></a>序列化框架</h2><h2 id="Avro"><a href="#Avro" class="headerlink" title="Avro"></a>Avro</h2>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hadoop输入输出/" rel="tag"># hadoop输入输出</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/20/Hdfs/" rel="next" title="HDFS">
+                <i class="fa fa-chevron-left"></i> HDFS
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/22/MapReduce应用开发/" rel="prev" title="MapReduce应用开发">
+                MapReduce应用开发 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="黄文启" />
+          <p class="site-author-name" itemprop="name">黄文启</p>
+           
+              <p class="site-description motion-element" itemprop="description">有花堪折直须折 莫待无花空折枝</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/atqi" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/atqigg" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hadoop-的-I-O-操作"><span class="nav-number">2.</span> <span class="nav-text">Hadoop 的 I/O 操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据完整性"><span class="nav-number">2.1.</span> <span class="nav-text">数据完整性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LocalFileSystem"><span class="nav-number">2.1.1.</span> <span class="nav-text">LocalFileSystem</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ChecksumFileSystem"><span class="nav-number">2.1.2.</span> <span class="nav-text">ChecksumFileSystem</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#压缩"><span class="nav-number">2.2.</span> <span class="nav-text">压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#压缩和输入分片"><span class="nav-number">2.2.1.</span> <span class="nav-text">压缩和输入分片</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列化"><span class="nav-number">2.3.</span> <span class="nav-text">序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Writable-接口"><span class="nav-number">2.3.1.</span> <span class="nav-text">Writable 接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Writable类"><span class="nav-number">2.3.2.</span> <span class="nav-text">Writable类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#java基本类型的Writable封装器"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">java基本类型的Writable封装器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Text类型"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">Text类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BytesWritable"><span class="nav-number">2.3.2.3.</span> <span class="nav-text">BytesWritable</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NullWritable"><span class="nav-number">2.3.2.4.</span> <span class="nav-text">NullWritable</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ObjectWritable-和GenericWritable"><span class="nav-number">2.3.2.5.</span> <span class="nav-text">ObjectWritable 和GenericWritable</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Writable集合类"><span class="nav-number">2.3.3.</span> <span class="nav-text">Writable集合类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实现定制的Writable集合"><span class="nav-number">2.3.3.1.</span> <span class="nav-text">实现定制的Writable集合</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列化框架"><span class="nav-number">2.4.</span> <span class="nav-text">序列化框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Avro"><span class="nav-number">2.5.</span> <span class="nav-text">Avro</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">黄文启</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'dis-13';
+      var disqus_identifier = '2017/03/20/HadoopIO/';
+
+      var disqus_title = "HadoopIO";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>
