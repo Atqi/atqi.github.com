@@ -86,18 +86,18 @@
 
 
 
-<meta name="description" content="前言(转载)MapReduce:详解Shuffle过程我更新了更容易理解的图片。">
+<meta name="description" content="前言(转载)MapReduce:详解Shuffle过程我画了更加直观的解释图。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MapReduce的shuffle过程">
 <meta property="og:url" content="http://atqi.github.io/2017/06/27/MapReduce的shuffle过程/index.html">
 <meta property="og:site_name" content="Wyatt's blog">
-<meta property="og:description" content="前言(转载)MapReduce:详解Shuffle过程我更新了更容易理解的图片。">
+<meta property="og:description" content="前言(转载)MapReduce:详解Shuffle过程我画了更加直观的解释图。">
 <meta property="og:image" content="http://atqi.github.io/images/mapshuffle.png">
 <meta property="og:image" content="http://atqi.github.io/images/reduceshuffle.png">
-<meta property="og:updated_time" content="2017-06-27T07:24:41.196Z">
+<meta property="og:updated_time" content="2017-06-27T07:26:36.052Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MapReduce的shuffle过程">
-<meta name="twitter:description" content="前言(转载)MapReduce:详解Shuffle过程我更新了更容易理解的图片。">
+<meta name="twitter:description" content="前言(转载)MapReduce:详解Shuffle过程我画了更加直观的解释图。">
 <meta name="twitter:image" content="http://atqi.github.io/images/mapshuffle.png">
 
 
@@ -424,7 +424,7 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a href="http://langyu.iteye.com/blog/992916" target="_blank" rel="external">(转载)MapReduce:详解Shuffle过程</a><br>我更新了更容易理解的图片。<br><a id="more"></a></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a href="http://langyu.iteye.com/blog/992916" target="_blank" rel="external">(转载)MapReduce:详解Shuffle过程</a><br>我画了更加直观的解释图。<br><a id="more"></a></p>
 <h2 id="Map端的shuffle过程"><a href="#Map端的shuffle过程" class="headerlink" title="Map端的shuffle过程"></a>Map端的shuffle过程</h2><p>整个流程我分了四步。简单些可以这样说，每个map task都有一个内存缓冲区，存储着map的输出结果，当缓冲区快满的时候需要将缓冲区的数据以一个临时文件的方式存放到磁盘，当整个map task结束后再对磁盘中这个map task产生的所有临时文件做合并，生成最终的正式输出文件，然后等待reduce task来拉数据。<br><img src="/images/mapshuffle.png" alt=""></p>
 <h3 id="1-Input"><a href="#1-Input" class="headerlink" title="1.Input"></a>1.Input</h3><p>在map task执行时，它的输入数据来源于HDFS的block，当然在MapReduce概念中，map task只读取split。Split与block的对应关系可能是多对一，默认是一对一。在WordCount例子里，假设map的输入数据都是像“aaa”这样的字符串。</p>
 <h3 id="2-Partition"><a href="#2-Partition" class="headerlink" title="2.Partition"></a>2.Partition</h3><p>在经过mapper的运行后，我们得知mapper的输出是这样一个key/value对： key是“aaa”， value是数值1。因为当前map端只做加1的操作，在reduce task里才去合并结果集。前面我们知道这个job有3个reduce task，到底当前的“aaa”应该交由哪个reduce去做呢，是需要现在决定的。</p>
