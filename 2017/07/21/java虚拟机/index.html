@@ -70,7 +70,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="jvm," />
 
 
 
@@ -86,25 +86,13 @@
 
 
 
-<meta name="description" content="title: java虚拟机date: 2017-07-21 22:53:48categories:
-
-编程
-javatags:
-jvm
-
-Java 虚拟机工作原理详解
+<meta name="description" content="Java 虚拟机工作原理详解
 —">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Wyatt's blog">
+<meta property="og:title" content="java虚拟机工作原理">
 <meta property="og:url" content="http://atqi.github.io/2017/07/21/java虚拟机/index.html">
 <meta property="og:site_name" content="Wyatt's blog">
-<meta property="og:description" content="title: java虚拟机date: 2017-07-21 22:53:48categories:
-
-编程
-javatags:
-jvm
-
-Java 虚拟机工作原理详解
+<meta property="og:description" content="Java 虚拟机工作原理详解
 —">
 <meta property="og:image" content="http://atqi.github.io/images/java程序执行的流程.png">
 <meta property="og:image" content="http://atqi.github.io/images/层级结构.png">
@@ -114,16 +102,10 @@ Java 虚拟机工作原理详解
 <meta property="og:image" content="http://atqi.github.io/images/操作数栈.jpg">
 <meta property="og:image" content="http://atqi.github.io/images/栈调用方法变化.jpg">
 <meta property="og:image" content="http://atqi.github.io/images/执行引擎.jpg">
-<meta property="og:updated_time" content="2017-07-21T14:56:32.222Z">
+<meta property="og:updated_time" content="2017-07-21T15:00:07.711Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Wyatt's blog">
-<meta name="twitter:description" content="title: java虚拟机date: 2017-07-21 22:53:48categories:
-
-编程
-javatags:
-jvm
-
-Java 虚拟机工作原理详解
+<meta name="twitter:title" content="java虚拟机工作原理">
+<meta name="twitter:description" content="Java 虚拟机工作原理详解
 —">
 <meta name="twitter:image" content="http://atqi.github.io/images/java程序执行的流程.png">
 
@@ -159,7 +141,7 @@ Java 虚拟机工作原理详解
 
 
 
-  <title>  | Wyatt's blog </title>
+  <title> java虚拟机工作原理 | Wyatt's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -357,7 +339,7 @@ Java 虚拟机工作原理详解
             
             
               
-                
+                java虚拟机工作原理
               
             
           </h1>
@@ -372,7 +354,7 @@ Java 虚拟机工作原理详解
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-21T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-21T22:53:48+08:00">
                 2017-07-21
               </time>
             
@@ -382,6 +364,39 @@ Java 虚拟机工作原理详解
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -418,17 +433,10 @@ Java 虚拟机工作原理详解
       
 
       
-        <hr>
-<p>title: java虚拟机<br>date: 2017-07-21 22:53:48<br>categories:</p>
-<ul>
-<li>编程</li>
-<li>java<br>tags:</li>
-<li>jvm</li>
-</ul>
-<p>Java 虚拟机工作原理详解</p>
+        <p>Java 虚拟机工作原理详解</p>
 <p>—<a id="more"></a></p>
-<h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><p><img src="images/java程序执行的流程.png" alt="java"><br>java代码首先会被编译成字节码(.class 文件).<br>JRE的类加载器从硬盘中读取class文件,载入到系统分配给JVM的内存区域–运行数据区(Runtime Data Areas),然后执行引擎解释或者编译类文件,转化成特定CPU码,CPU执行机器码,至此完成整个过程.</p>
-<h3 id="类加载器的层级结构"><a href="#类加载器的层级结构" class="headerlink" title="类加载器的层级结构"></a>类加载器的层级结构</h3><p>类加载器被组织成一种层级结构关系,也就是父子关系.其中,Bootstrap是所有类加载器的父亲.<br><img src="images/层级结构.png" alt="层级结构"></p>
+<h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><p><img src="/images/java程序执行的流程.png" alt="java"><br>java代码首先会被编译成字节码(.class 文件).<br>JRE的类加载器从硬盘中读取class文件,载入到系统分配给JVM的内存区域–运行数据区(Runtime Data Areas),然后执行引擎解释或者编译类文件,转化成特定CPU码,CPU执行机器码,至此完成整个过程.</p>
+<h3 id="类加载器的层级结构"><a href="#类加载器的层级结构" class="headerlink" title="类加载器的层级结构"></a>类加载器的层级结构</h3><p>类加载器被组织成一种层级结构关系,也就是父子关系.其中,Bootstrap是所有类加载器的父亲.<br><img src="/images/层级结构.png" alt="层级结构"></p>
 <ol>
 <li><p>Bootstrap class loader:<br>当运行Java虚拟机时,这个类加载器(用C/C++写的)被创建,它加载一些基本的java API,包括Object这个类.</p>
 </li>
@@ -439,7 +447,7 @@ Java 虚拟机工作原理详解
 <li><p>user-defined class loader<br>这是开发人员通过拓展classloader类定义的自定义加载器,加载程序员定义的一些类.</p>
 </li>
 </ol>
-<h3 id="委派模式"><a href="#委派模式" class="headerlink" title="委派模式"></a>委派模式</h3><p><img src="images/委派模式.png" alt=""></p>
+<h3 id="委派模式"><a href="#委派模式" class="headerlink" title="委派模式"></a>委派模式</h3><p><img src="/images/委派模式.png" alt=""></p>
 <p>当JVM加载一个类的时候,下层的加载器将任务委托给上一层类加载器,上一层加载检查它的命名空间中是否已经加载了这个类,如果已经加载了,直接使用这个类.如果没有加载,继续往上委托至顶部.检查完了之后,按照相反的顺序进行加载,如果BootStrap加载器找不到这个类,则往下委托,直到找到类文件.对于某个特定的类加载器来说,一个Java类只能被载入一次,也就在java虚拟机中,类的完整标识是(classloader,package,className).一个类可以被不同的类加载器加载.</p>
 <p>比如,现在有一个自己定义的类Myclass要加载,如果不指定的话,一般交app(system)加载.接到任务后,System检查自己的库里面是否已经有这个类,发现没有后委托给extension,Extension进行同样的检查,发现还是没有,继续往上委托,最顶层的boots发现自己库里也没有,于是根据它的路径(java核心类库,如java.lang)尝试去加载,没找到这个MyClass类,于是只好往下委托给Extension,Extension到自己的路径(JAVA_HOME/jre/lib/ext)找,还是没找到,继续往下,此时System加载器到classpath路径中寻找,找到了,于是加载到Java虚拟机.</p>
 <p>现在假设我们将这个类放到JAVA_HOME/jre/lib/ext这个路径中去（相当于交给Extension加载器加载），按照同样的规则，最后由Extension加载器加载MyClass类，看到了吧，统一各类被两次加载到JVM，但是每次都是由不同的ClassLoader完成。</p>
@@ -450,7 +458,7 @@ Java 虚拟机工作原理详解
 <p>Loading: 文章前面介绍的类加载,将文件系统中的class文件载入到jvm内存(运行数据区域)<br>Verifying: 检查载入的类文件是否符合java规范和虚拟机规范.<br>Preparing: 为这个类分配所需要的内存,确定这个类的属性,方法等所需的数据结构.<br>Resolving: 将该类常量池中的符号引用都改为直接引用.<br>Initialing: 初始化类的局部变量,为静态域赋值,同时执行静态初始化块.</p>
 <p>那么，Class Loader在加载类的时候，究竟做了些什么工作呢？<br>要了解这其中的细节，必须得先详细介绍一下运行数据区域。</p>
 <h2 id="运行数据区域"><a href="#运行数据区域" class="headerlink" title="运行数据区域"></a>运行数据区域</h2><p>Runtime Data Areas: 当运行一个JVM示例时,系统将分配给它一块内存区域(可设置大小),这一内存区域由JVM自己来管理.从这一块内存中分出一块来用来储存一些运行数据,例如创建的对象，传递给方法的参数，局部变量，返回值等等。分出来的这一块就称为运行数据区域。运行数据区域可以划分为6大块：Java栈、程序计数寄存器（PC寄存器）、本地方法栈（Native Method Stack）、Java堆、方法区域、运行常量池（Runtime Constant Pool）。运行常量池本应该属于方法区，但是由于其重要性，JVM规范将其独立出来说明。其中，前面3各区域（PC寄存器、Java栈、本地方法栈）是每个线程独自拥有的，后三者则是整个JVM实例中的所有线程共有的。这六大块如下图所示：</p>
-<p><img src="images/运行数据区域.png" alt="运行数据区域"></p>
+<p><img src="/images/运行数据区域.png" alt="运行数据区域"></p>
 <h3 id="PC计数器"><a href="#PC计数器" class="headerlink" title="PC计数器"></a>PC计数器</h3><p>每个线程都拥有一个PC计数器,当线程启动时,计数器被创建,这个计数器存放着一系列的栈帧(Stack Frame),JVM只能进行压入（Push）和弹出（Pop）栈帧这两种操作。每当调用一个方法时，JVM就往栈里压入一个栈帧，方法结束返回时弹出栈帧。如果方法执行时出现异常，可以调用printStackTrace等方法来查看栈的情况。栈的示意图如下：</p>
 <p>OK。现在我们再来详细看看每一个栈帧中都放着什么东西。从示意图很容易看出，每个栈帧包含三个部分：本地变量数组，操作数栈，方法所属类的常量池引用。</p>
 <h4 id="局部（本地）变量数组："><a href="#局部（本地）变量数组：" class="headerlink" title="局部（本地）变量数组："></a>局部（本地）变量数组：</h4><p>局部（本地）变量数组中，从0开始按顺序存放方法所属对象的引用、传递给方法的参数、局部变量。举个例子：</p>
@@ -460,19 +468,19 @@ Java 虚拟机工作原理详解
 <p>看仔细了，其中double类型的b需要两个连续的索引。取值的时候，取出的是2这个索引中的值。如果是静态方法，则数组第0个不存放this引用，而是直接存储传递的参数。</p>
 <h4 id="操作数栈："><a href="#操作数栈：" class="headerlink" title="操作数栈："></a>操作数栈：</h4><p>操作数栈中存放方法执行时的一些中间变量，JVM在执行方法时压入或者弹出这些变量。其实，操作数栈是方法真正工作的地方，执行方法时，局部变量数组与操作数栈根据方法定义进行数据交换。例如，执行以下代码时，操作数栈的情况如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int a = 90;</div><div class="line">int b = 10;</div><div class="line">int c = a + b;</div></pre></td></tr></table></figure>
-<p><img src="images/操作数栈.jpg" alt=""></p>
+<p><img src="/images/操作数栈.jpg" alt=""></p>
 <p>注意在这个图中，操作数栈的地步是在上边，所以先压入的100位于上方。可以看出，操作数栈其实是一个数据临时存储区，存放一些中间变量，方法结束了，操作数栈也就没有啦。</p>
 <h4 id="栈帧中数据引用："><a href="#栈帧中数据引用：" class="headerlink" title="栈帧中数据引用："></a>栈帧中数据引用：</h4><p>除了局部变量数组和操作数栈之外，栈帧还需要一个常量池的引用。当JVM执行到需要常量池的数据时，就是通过这个引用来访问常量池的。栈帧中的数据还要负责处理方法的返回和异常。如果通过return返回，则将该方法的栈帧从Java栈中弹出。如果方法有返回值，则将返回值压入到调用该方法的方法的操作数栈中。另外，数据区中还保存中该方法可能的异常表的引用。下面的例子用来说明：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Example3C</span></span>&#123;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">addAndPrint</span><span class="params">()</span></span>&#123;  </div><div class="line">        <span class="keyword">double</span> result = addTwoTypes(<span class="number">1</span>,<span class="number">88.88</span>);  </div><div class="line">        System.out.println(result);  </div><div class="line">    &#125;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">addTwoTypes</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">double</span> d)</span></span>&#123;  </div><div class="line">    <span class="keyword">return</span> i+d;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>执行上述代码时，Java栈如下图所示：</p>
-<p><img src="images/栈调用方法变化.jpg" alt=""></p>
+<p><img src="/images/栈调用方法变化.jpg" alt=""></p>
 <p>一样需要注意的是，栈的底部在上方，先押人员addAndPrint方法的栈帧，再压入addTwoTypes方法的栈帧。上图最右边的文字说明有错误，应该是addTwoTypes的执行结果存放在addAndPrint的操作数栈中。</p>
 <h4 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h4><p>当程序通过JNI（java Native Interface）调用本地方法（如C或者C++代码）时，就根据本地方法的语言类型建立相应的栈。</p>
 <h4 id="方法区域"><a href="#方法区域" class="headerlink" title="方法区域"></a>方法区域</h4><p>方法区域是一个JVM实例中的所有线程共享的，当启动一个JVM实例时，方法区域被创建。它用于存运行放常量池、有关域和方法的信息、静态变量、类和方法的字节码。不同的JVM实现方式在实现方法区域的时候会有所区别。Oracle的HotSpot称之为永久区域（Permanent Area）或者永久代（Permanent Generation）。</p>
 <h4 id="运行常量池"><a href="#运行常量池" class="headerlink" title="运行常量池"></a>运行常量池</h4><p>这个区域存放类和接口的常量，除此之外，它还存放方法和域的所有引用。当一个方法或者域被引用的时候，JVM就通过运行常量池中的这些引用来查找方法和域在内存中的的实际地址。</p>
 <h4 id="堆（Heap）"><a href="#堆（Heap）" class="headerlink" title="堆（Heap）"></a>堆（Heap）</h4><p>堆中存放的是程序创建的对象或者实例。这个区域对JVM的性能影响很大。垃圾回收机制处理的正是这一块内存区域。<br>所以，类加载器加载其实就是根据编译后的Class文件，将java字节码载入JVM内存，并完成对运行数据处于的初始化工作，供执行引擎执行。</p>
 <h3 id="执行引擎（Execution-Engine）"><a href="#执行引擎（Execution-Engine）" class="headerlink" title="执行引擎（Execution  Engine）"></a>执行引擎（Execution  Engine）</h3><p>类加载器将字节码载入内存之后，执行引擎以Java 字节码指令为但愿，读取Java字节码。问题是，现在的java字节码机器是读不懂的，因此还必须想办法将字节码转化成平台相关的机器码。这个过程可以由解释器来执行，也可以有即时编译器（JIT Compiler）来完成。</p>
-<p><img src="images/执行引擎.jpg" alt=""></p>
+<p><img src="/images/执行引擎.jpg" alt=""></p>
 
       
     </div>
@@ -493,6 +501,12 @@ Java 虚拟机工作原理详解
 
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jvm/" rel="tag"># jvm</a>
+          
+        </div>
       
 
       
@@ -612,7 +626,7 @@ Java 虚拟机工作原理详解
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -807,7 +821,7 @@ Java 虚拟机工作原理详解
       var disqus_shortname = 'dis-13';
       var disqus_identifier = '2017/07/21/java虚拟机/';
 
-      var disqus_title = "";
+      var disqus_title = "java虚拟机工作原理";
 
 
       function run_disqus_script(disqus_script) {
