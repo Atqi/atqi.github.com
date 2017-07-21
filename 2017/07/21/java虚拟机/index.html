@@ -97,12 +97,12 @@
 <meta property="og:image" content="http://atqi.github.io/images/java程序执行的流程.png">
 <meta property="og:image" content="http://atqi.github.io/images/层级结构.png">
 <meta property="og:image" content="http://atqi.github.io/images/委派模式.png">
-<meta property="og:image" content="http://atqi.github.io/java/下载完之后.png">
+<meta property="og:image" content="http://atqi.github.io/images/加载完之后.png">
 <meta property="og:image" content="http://atqi.github.io/images/运行数据区域.png">
 <meta property="og:image" content="http://atqi.github.io/images/操作数栈.jpg">
 <meta property="og:image" content="http://atqi.github.io/images/栈调用方法变化.jpg">
 <meta property="og:image" content="http://atqi.github.io/images/执行引擎.jpg">
-<meta property="og:updated_time" content="2017-07-21T15:00:07.711Z">
+<meta property="og:updated_time" content="2017-07-21T15:01:47.588Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java虚拟机工作原理">
 <meta name="twitter:description" content="Java 虚拟机工作原理详解
@@ -454,7 +454,7 @@
 <h3 id="可见性限制"><a href="#可见性限制" class="headerlink" title="可见性限制"></a>可见性限制</h3><p>下层的加载器能够看到上层加载器中的类,反之则不行,也就是委托只能从下到上.</p>
 <h3 id="不允许卸载类"><a href="#不允许卸载类" class="headerlink" title="不允许卸载类"></a>不允许卸载类</h3><p>类加载器可以加载一个雷,但是它不能卸载一个类.但是类加载器可以被删除或者被创建.</p>
 <p>当类加载完毕之后，JVM继续按照下图完成其他工作：</p>
-<p><img src="java/下载完之后.png" alt=""></p>
+<p><img src="/images/加载完之后.png" alt=""></p>
 <p>Loading: 文章前面介绍的类加载,将文件系统中的class文件载入到jvm内存(运行数据区域)<br>Verifying: 检查载入的类文件是否符合java规范和虚拟机规范.<br>Preparing: 为这个类分配所需要的内存,确定这个类的属性,方法等所需的数据结构.<br>Resolving: 将该类常量池中的符号引用都改为直接引用.<br>Initialing: 初始化类的局部变量,为静态域赋值,同时执行静态初始化块.</p>
 <p>那么，Class Loader在加载类的时候，究竟做了些什么工作呢？<br>要了解这其中的细节，必须得先详细介绍一下运行数据区域。</p>
 <h2 id="运行数据区域"><a href="#运行数据区域" class="headerlink" title="运行数据区域"></a>运行数据区域</h2><p>Runtime Data Areas: 当运行一个JVM示例时,系统将分配给它一块内存区域(可设置大小),这一内存区域由JVM自己来管理.从这一块内存中分出一块来用来储存一些运行数据,例如创建的对象，传递给方法的参数，局部变量，返回值等等。分出来的这一块就称为运行数据区域。运行数据区域可以划分为6大块：Java栈、程序计数寄存器（PC寄存器）、本地方法栈（Native Method Stack）、Java堆、方法区域、运行常量池（Runtime Constant Pool）。运行常量池本应该属于方法区，但是由于其重要性，JVM规范将其独立出来说明。其中，前面3各区域（PC寄存器、Java栈、本地方法栈）是每个线程独自拥有的，后三者则是整个JVM实例中的所有线程共有的。这六大块如下图所示：</p>
