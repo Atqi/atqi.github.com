@@ -95,7 +95,7 @@
 <meta property="og:description" content="Hive的使用">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://atqi.github.io/images/udaf.png">
-<meta property="og:updated_time" content="2017-07-23T15:52:39.542Z">
+<meta property="og:updated_time" content="2017-07-23T15:54:53.942Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hive">
 <meta name="twitter:description" content="Hive的使用">
@@ -428,7 +428,78 @@
         <p>Hive的使用</p>
 <a id="more"></a>
 <h2 id="Hive-QL"><a href="#Hive-QL" class="headerlink" title="Hive QL"></a>Hive QL</h2><p>Hive 的 sql “方言”， 称为 HiveQL。</p>
-<p>SQL 和 HiveQL 的概要比较<br>|特性|SQL|HiveQL|<br>|–|–|–|<br>|更新|UPDATA|INSERT|<br>|事务|支持|支持(表级和分区级)|<br>|索引|支持|支持|<br>|延迟|亚秒级|分钟级|<br>|数据类型|整数、浮点数、定点数、文本和二进制串、时间|整数、浮点数、布尔值、文本和二进制串、时间戳、数组、映射、结构|<br>|函数|数百个内置函数|几十个内置函数|<br>|多表插入|不支持|支持|<br>|Create table as select|一部分支持|支持|<br>|选择|SQL-92|FROM子句中只能有一个表或者视图。支持偏序的SORT BY。 可限制返回行数量的LIMIT|<br>|子查询|在任何字句中支持相关的或者不相关的|只能在FROM子句中(不支持相关子查询)|<br>|视图|可更新|只读|<br>|拓展点|用户自定义函数、存储过程|用户自定义函数、MapReduce脚本|</p>
+<p>SQL 和 HiveQL 的概要比较</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>SQL</th>
+<th>HiveQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>更新</td>
+<td>UPDATA</td>
+<td>INSERT</td>
+</tr>
+<tr>
+<td>事务</td>
+<td>支持</td>
+<td>支持(表级和分区级)</td>
+</tr>
+<tr>
+<td>索引</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>延迟</td>
+<td>亚秒级</td>
+<td>分钟级</td>
+</tr>
+<tr>
+<td>数据类型</td>
+<td>整数、浮点数、定点数、文本和二进制串、时间</td>
+<td>整数、浮点数、布尔值、文本和二进制串、时间戳、数组、映射、结构</td>
+</tr>
+<tr>
+<td>函数</td>
+<td>数百个内置函数</td>
+<td>几十个内置函数</td>
+</tr>
+<tr>
+<td>多表插入</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>Create table as select</td>
+<td>一部分支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>选择</td>
+<td>SQL-92</td>
+<td>FROM子句中只能有一个表或者视图。支持偏序的SORT BY。 可限制返回行数量的LIMIT</td>
+</tr>
+<tr>
+<td>子查询</td>
+<td>在任何字句中支持相关的或者不相关的</td>
+<td>只能在FROM子句中(不支持相关子查询)</td>
+</tr>
+<tr>
+<td>视图</td>
+<td>可更新</td>
+<td>只读</td>
+</tr>
+<tr>
+<td>拓展点</td>
+<td>用户自定义函数、存储过程</td>
+<td>用户自定义函数、MapReduce脚本</td>
+</tr>
+</tbody>
+</table>
 <h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><table>
 <thead>
 <tr>
