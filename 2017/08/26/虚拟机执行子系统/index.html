@@ -70,7 +70,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="数据库," />
+  <meta name="keywords" content="jvm," />
 
 
 
@@ -86,20 +86,18 @@
 
 
 
-<meta name="description" content="前言JDBC(Java Data Base Connectivity) 是一种用于执行SQL语句的Java API,有了JDBC API，就不必为访问Sybase数据库专门写一个程序，为访问Oracle数据库又专门写一个程序，或为访问Informix数据库又编写另一个程序等等，程序员只需用JDBC API写一个程序就够了，它可向相应数据库发送SQL调用。 简单地说，JDBC可做三件事：与数据库建立">
-<meta name="keywords" content="数据库">
+<meta name="description" content="类文件结构">
+<meta name="keywords" content="jvm">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JDBC 简述">
-<meta property="og:url" content="http://atqi.github.io/2017/03/11/JDBC-简述/index.html">
+<meta property="og:title" content="虚拟机执行子系统">
+<meta property="og:url" content="http://atqi.github.io/2017/08/26/虚拟机执行子系统/index.html">
 <meta property="og:site_name" content="Wyatt&#39;s blog">
-<meta property="og:description" content="前言JDBC(Java Data Base Connectivity) 是一种用于执行SQL语句的Java API,有了JDBC API，就不必为访问Sybase数据库专门写一个程序，为访问Oracle数据库又专门写一个程序，或为访问Informix数据库又编写另一个程序等等，程序员只需用JDBC API写一个程序就够了，它可向相应数据库发送SQL调用。 简单地说，JDBC可做三件事：与数据库建立">
+<meta property="og:description" content="类文件结构">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://atqi.github.io/images/jdbc-architecture.png">
-<meta property="og:updated_time" content="2017-06-27T08:11:28.605Z">
+<meta property="og:updated_time" content="2017-08-26T04:19:31.012Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JDBC 简述">
-<meta name="twitter:description" content="前言JDBC(Java Data Base Connectivity) 是一种用于执行SQL语句的Java API,有了JDBC API，就不必为访问Sybase数据库专门写一个程序，为访问Oracle数据库又专门写一个程序，或为访问Informix数据库又编写另一个程序等等，程序员只需用JDBC API写一个程序就够了，它可向相应数据库发送SQL调用。 简单地说，JDBC可做三件事：与数据库建立">
-<meta name="twitter:image" content="http://atqi.github.io/images/jdbc-architecture.png">
+<meta name="twitter:title" content="虚拟机执行子系统">
+<meta name="twitter:description" content="类文件结构">
 
 
 
@@ -127,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://atqi.github.io/2017/03/11/JDBC-简述/"/>
+  <link rel="canonical" href="http://atqi.github.io/2017/08/26/虚拟机执行子系统/"/>
 
 
 
 
 
-  <title> JDBC 简述 | Wyatt's blog </title>
+  <title> 虚拟机执行子系统 | Wyatt's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -310,7 +308,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://atqi.github.io/2017/03/11/JDBC-简述/">
+    <link itemprop="mainEntityOfPage" href="http://atqi.github.io/2017/08/26/虚拟机执行子系统/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="黄文启">
@@ -331,7 +329,7 @@
             
             
               
-                JDBC 简述
+                虚拟机执行子系统
               
             
           </h1>
@@ -346,8 +344,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-11T21:35:20+08:00">
-                2017-03-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-26T12:17:57+08:00">
+                2017-08-26
               </time>
             
 
@@ -398,8 +396,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/11/JDBC-简述/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/03/11/JDBC-简述/" itemprop="commentCount"></span>
+                <a href="/2017/08/26/虚拟机执行子系统/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/26/虚拟机执行子系统/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -425,47 +423,149 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>JDBC(Java Data Base Connectivity) 是一种用于执行SQL语句的Java API,有了JDBC API，就不必为访问Sybase数据库专门写一个程序，为访问Oracle数据库又专门写一个程序，或为访问Informix数据库又编写另一个程序等等，程序员只需用JDBC API写一个程序就够了，它可向相应数据库发送SQL调用。</p>
-<p>简单地说，JDBC可做三件事：与数据库建立连接、发送操作数据库的语句并处理结果。</p>
-<a id="more"></a>
-<p><img src="/images/jdbc-architecture.png" alt=""></p>
-<h2 id="基本的JDBC组件"><a href="#基本的JDBC组件" class="headerlink" title="基本的JDBC组件"></a>基本的JDBC组件</h2><ul>
-<li><p>第一步, Java应用需要创建并建立与特定数据库的连接</p>
+        <ul>
+<li>类文件结构<a id="more"></a>
+<h2 id="类文件结构"><a href="#类文件结构" class="headerlink" title="类文件结构"></a>类文件结构</h2>代码编译的结果从本地机器码转变为字节码,是存储格式发展的一小步,却是编程语言发展的一大步。<br>由于最近10年内虚拟机以及大量建立在虚拟机之上的程序语言如雨后春笋般出现并蓬勃发展,将我们编写的程序编译成二进制本地机器码(NativeCode)已不再是唯一的选择,越来越多的程序语言选择了与操作系统和机器指令集无关的、平台中立的格式作为程序编译后的存储格式。<br>时至今日,商业机构和开源机构已经在Java语言之外发展出一大批在Java虚拟机之上运行的语言,如Clojure、Groovy、JRuby、Jython、Scala等。例如,使用Java编译器可以把Java代码编译为存储字节码的Class文件,使用JRuby等其他语言的编译器一样可以把程序代码编译成Class文件,虚拟机并不关心Class的来源是何种语言。<h3 id="Class类文件的结构"><a href="#Class类文件的结构" class="headerlink" title="Class类文件的结构"></a>Class类文件的结构</h3></li>
+</ul>
+<p>Class文件是一组以8位字节为基础单位的二进制流,各个数据项目严格按照顺序紧凑地排列在Class文件之中,中间没有添加任何分隔符,这使得整个Class文件中存储的内容几乎全部是程序运行的必要数据,没有空隙存在。当遇到需要占用8位字节以上空间的数据项时,则会按照高位在前 的方式分割成若干个8位字节进行存储。</p>
+<p>Class文件格式采用一种类似于C语言结构体的伪结构来存储数据,这种伪结构中只有两种数据类型:</p>
 <ul>
-<li><p>通过 Driven Manager (java.sql.DriveManager)</p>
-</li>
-<li><p>或者通过连接 JDBC数据源 (javax.sq.DataSource)</p>
-</li>
+<li>无符号数</li>
+<li>表</li>
 </ul>
-</li>
-</ul>
+<p><strong>无符号数:</strong> 可以用来描述数字、索引引用、数量值或者按照UTF-8<br>编码构成字符串值<br><strong>表:</strong> 表是由多个无符号数或者其他表作为数据项构成的复合数据类型,<em>所有表都习惯性地以“_info”结尾</em>。表用于描述有层次关系的复合结构的数据。</p>
+<p>整个Class文件本质上就是一张表:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">数量</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">u4</td>
+<td style="text-align:center">magic</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">确定是否能为jvm接受的class文件</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">minor_version</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">此版本号</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">major_version</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">主版本号</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">constant_pool_count</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">常量池容量计数值</td>
+</tr>
+<tr>
+<td style="text-align:center">cp_info</td>
+<td style="text-align:center">constant_pool</td>
+<td style="text-align:center">constant_pool_count-1</td>
+<td style="text-align:center">常量池内容</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">access_flags</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">访问标志</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">this_class</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">类索引</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">super_class</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">父类索引</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">interfaces_count</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">接口计数器</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">interfaces</td>
+<td style="text-align:center">interfaces_count-1</td>
+<td style="text-align:center">接口索引表</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">fields_count</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">字段计数器</td>
+</tr>
+<tr>
+<td style="text-align:center">field_info</td>
+<td style="text-align:center">fields</td>
+<td style="text-align:center">fields_count</td>
+<td style="text-align:center">字段表</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">methods_count</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">方法计数器</td>
+</tr>
+<tr>
+<td style="text-align:center">method_info</td>
+<td style="text-align:center">methods</td>
+<td style="text-align:center">methods-count</td>
+<td style="text-align:center">方法表</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:center">attributes_count</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">属性计数器</td>
+</tr>
+<tr>
+<td style="text-align:center">attribute-info</td>
+<td style="text-align:center">atrributes</td>
+<td style="text-align:center">atrributes_count-1</td>
+<td style="text-align:center">属性表</td>
+</tr>
+</tbody>
+</table>
+<p>无论是无符号数还是表,当需要描述同一类型但数量不定的多个数据时,经常会使用一个前置的容量计数器加若干个连续的数据项的形式,这时称这一系列连续的某一类型的数据为某一类型的集合。</p>
+<h4 id="魔数"><a href="#魔数" class="headerlink" title="魔数"></a>魔数</h4><p>每个Class文件的头4个字节称为魔数(Magic Number),它的唯一作用是确定这个文件是否为一个能被虚拟机接受的Class文件。</p>
+<p>紧接着魔数的4个字节存储的是Class文件的版本号:第5和第6个字节是次版本号(Minor Version),第7和第8个字节是主版本号(Major Version)。</p>
+<h4 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h4><p>紧接着主次版本号之后的是常量池入口,常量池可以理解为Class文件之中的资源仓库,它是Class文件结构中与其他项目关联最多的数据类型,也是占用Class文件空间最大的数据项目之一,同时它还是在Class文件中第一个出现的表类型数据项目。</p>
+<p>常量池中主要存放两大类常量:</p>
 <ul>
-<li><p>第二步, 对数据库进行增删改查操作</p>
+<li>字面量(Literal)</li>
+<li>符号引用(Symbolic References)</li>
+</ul>
+<p><strong>字面量:</strong>比较接近于Java语言层面的常量概念,如文本字符串、声明为final的常量值等<br><strong>符号:</strong>引用则属于编译原理方面的概念,包括了下面三类常量:</p>
 <ul>
-<li>用java.sql.Statement 和 java.sql.PreparedStatement 来执行SQL语句</li>
+<li>类和接口的全限定名(Fully Qualified Name)</li>
+<li>字段的名称和描述符(Descriptor)</li>
+<li>方法的名称和描述符</li>
 </ul>
-</li>
-</ul>
-<ul>
-<li><p>第三步, 接收查询操作返回的数据</p>
-<ul>
-<li>使用 java.sql.ResultSet</li>
-</ul>
-</li>
-</ul>
-<h3 id="数据库连接"><a href="#数据库连接" class="headerlink" title="数据库连接"></a>数据库连接</h3><h4 id="加载驱动"><a href="#加载驱动" class="headerlink" title="加载驱动"></a>加载驱动</h4><p>JDBC怎么用一套语法搞定一个数据库的? 其秘密就在于java的多态. 首先为JDBC注册一个数据库驱动, 然后根据这个驱动类型, 返回相应的连接.</p>
-<p>首先加载相应的数据库驱动(以MySQL为例) :</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);</div><div class="line">&#125;</div><div class="line"><span class="keyword">catch</span>(ClassNotFoundException e) &#123;</div><div class="line">    System.out.println(<span class="string">"找不到驱动程序"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>假如想要操作的是Oracle或者HSQLDB呢?只需要把上面的com.mysql.jdbc.Driver改成org.hsqldb.jdbc.JDBCDriver 或者 org.hsqldb.jdbc.JDBCDriver</p>
-<h4 id="得到连接"><a href="#得到连接" class="headerlink" title="得到连接"></a>得到连接</h4><p>加载了驱动之后,JDBC就知道你注册的数据库类型,这时候用java.sql.DriveManager即可得到JDBC到数据库的连接(java.sql.Connection)(可以理解为一个Socket)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    </div><div class="line">    String url =  <span class="string">"jdbc:mysql://127.0.0.1:3306/test?"</span> + <span class="string">"user=root&amp;password=root"</span>;</div><div class="line">    Connection con = DriverManager.getConnection(url);</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="keyword">catch</span>(SQLException e) &#123;</div><div class="line">    ....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>注:</strong><br>上面代码的URL格式为(如果要使用英文以外的字符进行存储,要加上[]里的内容):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jdbc:mysql:<span class="comment">//主机名:端口/数据库名称?用户名="用户名"&amp;密码="密码"[&amp;useUnicode=布尔值&amp;characterEncoding=编码方式]</span></div></pre></td></tr></table></figure></p>
-<p>例子(用中文存储):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jdbc:mysql:<span class="comment">//127.0.0.1:3306/test?user=root&amp;password=root&amp;useUnicode=true&amp;characterEncoding=Big5</span></div></pre></td></tr></table></figure></p>
-<h3 id="操作数据库"><a href="#操作数据库" class="headerlink" title="操作数据库"></a>操作数据库</h3><p>现在我们已经通过DriverManager得到一个connection了,现在可以用SQL进行操作了,这就要用到java.sql.Statement 和 java.sql.PreparedStatement</p>
-<p>这里以java.sql.PreparedStatement为例 :<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">PreparedStatement countriesStatement = connection.prepareStatement("UPDATE</div><div class="line">COUNTRIES SET NAME = ? WHERE ID = ?");</div><div class="line">countriesStatement.setString(1, "Spain");</div><div class="line">countriesStatement.setInt(2, 123456789);</div></pre></td></tr></table></figure></p>
-<p>仔细阅读代码会发现,这个类初始化的时候用到一个模板,后面就可以进行高效的批量操作了.</p>
-<h3 id="取得结果"><a href="#取得结果" class="headerlink" title="取得结果"></a>取得结果</h3><p>如果进行查询操作的话,怎么接收返回的数据呢? 该 java.sql.ResultSet 粉墨登场了</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ResultSet rs = countriesStatement.executeQuery(<span class="string">"SELECT NAME, POPULATION FROM COUNTRIES"</span>);</div></pre></td></tr></table></figure>
+<p>当虚拟机运行时,需要从常量池获得对应的符号引用,再在类创建时或运行时解析、翻译到具体的内存地址之中。</p>
+<h4 id="访问标志"><a href="#访问标志" class="headerlink" title="访问标志"></a>访问标志</h4><p>在常量池结束之后,紧接着的两个字节代表访问标志(access_flags),这个标志用于识别一些类或者接口层次的访问信息,包括:这个Class是类还是接口;是否定义为public类型;是否定义为abstract类型;如果是类的话,是否被声明为final等。</p>
+<h4 id="类索引、父类索引与接口索引集合"><a href="#类索引、父类索引与接口索引集合" class="headerlink" title="类索引、父类索引与接口索引集合"></a>类索引、父类索引与接口索引集合</h4><p>类索引(this_class)和父类索引(super_class)都是一个u2类型的数据,而接口索引集合(interfaces)是一组u2类型的数据的集合,Class文件中由这三项数据来确定这个类的继承关系。</p>
+<h4 id="字段表集合"><a href="#字段表集合" class="headerlink" title="字段表集合"></a>字段表集合</h4><p>字段表(field_info)用于描述接口或者类中声明的变量。<br>字段(field)包括类级变量以及实例级变量,但不包括在方法内部声明的局部变量。</p>
+<p>可以包括的信息有:字段的作用域(public、private、protected修饰符)、是实例变量还是类变量(static修饰符)、可变性(final)、并发可见性(volatile修饰符,是否强制从主内存读写)、可否被序列化(transient修饰符)、字段数据类型(基本类型、对象、数组)、字段名称。</p>
+<p>字段表集合中不会列出从超类或者父接口中继承而来的字段,但有可能列出原本Java代码之中不存在的字段,譬如在内部类中为了保持对外部类的访问性,会自动添加指向外部类实例的字段。</p>
+<h4 id="方法表集合"><a href="#方法表集合" class="headerlink" title="方法表集合"></a>方法表集合</h4><p>Class文件存储格式中对方法的描述与对字段的描述几乎采用了完全一致的方式,方法表的结构如同字段表一样,依次包括了访问标志(access_flags)、名称索引(name_index)、描述符索引(descriptor_index)、属性表集合(attributes)几项</p>
+<h4 id="属性表集合"><a href="#属性表集合" class="headerlink" title="属性表集合"></a>属性表集合</h4><p>属性表(attribute_info)在前面的讲解之中已经出现过数次,在Class文件、字段表、方法表都可以携带自己的属性表集合,以用于描述某些场景专有的信息。</p>
 
       
     </div>
@@ -489,7 +589,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/数据库/" rel="tag"># 数据库</a>
+            <a href="/tags/jvm/" rel="tag"># jvm</a>
           
         </div>
       
@@ -502,8 +602,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/07/数据库概论/" rel="next" title="数据库概论">
-                <i class="fa fa-chevron-left"></i> 数据库概论
+              <a href="/2017/08/19/九章精选面试题/" rel="next" title="九章精选面试题">
+                <i class="fa fa-chevron-left"></i> 九章精选面试题
               </a>
             
           </div>
@@ -511,10 +611,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/12/算法模板/" rel="prev" title="算法模板">
-                算法模板 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -670,7 +766,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本的JDBC组件"><span class="nav-number">2.</span> <span class="nav-text">基本的JDBC组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库连接"><span class="nav-number">2.1.</span> <span class="nav-text">数据库连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加载驱动"><span class="nav-number">2.1.1.</span> <span class="nav-text">加载驱动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#得到连接"><span class="nav-number">2.1.2.</span> <span class="nav-text">得到连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作数据库"><span class="nav-number">2.2.</span> <span class="nav-text">操作数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#取得结果"><span class="nav-number">2.3.</span> <span class="nav-text">取得结果</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类文件结构"><span class="nav-number">1.</span> <span class="nav-text">类文件结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Class类文件的结构"><span class="nav-number">1.1.</span> <span class="nav-text">Class类文件的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#魔数"><span class="nav-number">1.1.1.</span> <span class="nav-text">魔数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常量池"><span class="nav-number">1.1.2.</span> <span class="nav-text">常量池</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#访问标志"><span class="nav-number">1.1.3.</span> <span class="nav-text">访问标志</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类索引、父类索引与接口索引集合"><span class="nav-number">1.1.4.</span> <span class="nav-text">类索引、父类索引与接口索引集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字段表集合"><span class="nav-number">1.1.5.</span> <span class="nav-text">字段表集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法表集合"><span class="nav-number">1.1.6.</span> <span class="nav-text">方法表集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性表集合"><span class="nav-number">1.1.7.</span> <span class="nav-text">属性表集合</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -808,9 +904,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'dis-13';
-      var disqus_identifier = '2017/03/11/JDBC-简述/';
+      var disqus_identifier = '2017/08/26/虚拟机执行子系统/';
 
-      var disqus_title = "JDBC 简述";
+      var disqus_title = "虚拟机执行子系统";
 
 
       function run_disqus_script(disqus_script) {
